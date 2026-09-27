@@ -114,10 +114,10 @@
         <form (submit)="fazerLoginAdmin($event)">
           <div class="mb-3">
             <label class="form-label small fw-bold">E-mail de Admin:</label>
-            <input type="email" class="form-control" [(ngModel)]="dadosLogin.email" name="adminEmail" placeholder="admin@fh.com" required>
+            <input type="email" class="form-control" [(ngModel)]="dadosLogin.email" name="adminEmail" placeholder="Digite o seu e-mail" required>
           </div>
           <div class="mb-3">
-            <label class="form-label small fw-bold">Palavra-passe (Teste: 1234):</label>
+            <label class="form-label small fw-bold">Palavra-passe:</label>
             <input type="password" class="form-control" [(ngModel)]="dadosLogin.senha" name="adminSenha" placeholder="••••" required>
           </div>
           <button type="submit" class="btn btn-danger w-100 fw-bold py-2">Entrar no Painel Admin</button>
