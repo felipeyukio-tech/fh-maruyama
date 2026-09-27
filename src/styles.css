@@ -1,1 +1,7 @@
 @import "bootstrap/dist/css/bootstrap.min.css";
+
+body {
+  background-color: #121212 !important;
+  color: #ffffff !important;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}

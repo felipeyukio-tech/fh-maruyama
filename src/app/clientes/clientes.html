@@ -1,75 +1,174 @@
 <!-- NAVBAR / MENU DE TOPO - FH Maruyama -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+<nav class="navbar navbar-expand-lg navbar-dark bg-black shadow-sm border-bottom border-warning py-3">
   <div class="container">
-    <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="#" (click)="irParaPagina('home'); $event.preventDefault()">
-      <span class="px-2 py-1 rounded bg-black border border-secondary fw-bolder fs-5">
-        <span class="text-white">F</span><span class="text-danger">H</span>
-      </span>
-      <span>FH Maruyama <small class="text-muted fs-6 fw-normal">| Materiais Industriais</small></span>
+    <a class="navbar-brand fw-bold d-flex align-items-center gap-3" href="#" (click)="irParaPagina('home'); $event.preventDefault()">
+      <img src="assets/logo.jpeg" alt="FH Maruyama" style="height: 45px; width: auto; border-radius: 4px;" class="d-inline-block align-text-top">
+      <span class="text-white fs-5 fw-bold tracking-wide">FH Maruyama</span>
     </a>
 
     <!-- Botões de Navegação e Logins -->
     <div class="d-flex align-items-center gap-2">
-      <button class="btn btn-outline-light btn-sm" (click)="irParaPagina('home')">Quem Somos</button>
-      <button class="btn btn-outline-info btn-sm" (click)="irParaPagina('login-cliente')">Login Cliente</button>
-      <button class="btn btn-danger btn-sm fw-bold px-3" (click)="irParaPagina('login-admin')">Painel Admin</button>
+      <button class="btn btn-outline-light btn-sm" (click)="irParaPagina('home')">Início</button>
+      <button class="btn btn-outline-warning btn-sm" (click)="filtrarCategoria('')">Catálogo & Simulador</button>
+      <button class="btn btn-outline-warning btn-sm" (click)="irParaPagina('login-cliente')">Login Cliente</button>
+      <button class="btn btn-warning btn-sm fw-bold px-3 text-black" (click)="irParaPagina('login-admin')">Painel Admin</button>
     </div>
   </div>
 </nav>
 
-<!-- ALERTA DE ANÚNCIOS GLOBAL (Gerido pelo Administrador) -->
-<div class="bg-danger text-white text-center py-2 px-3 small fw-bold shadow-sm">
-  {{ anuncioGlobal }}
+<!-- ALERTA DE ANÚNCIOS GLOBAL -->
+<div class="bg-warning text-black text-center py-2 px-3 small fw-bold shadow-sm">
+  🔥 {{ anuncioGlobal }}
 </div>
 
 <!-- ========================================== -->
-<!-- 1. PÁGINA INSTITUCIONAL: QUEM SOMOS / HOME -->
+<!-- 1. PÁGINA INICIAL / INSTITUCIONAL          -->
 <!-- ========================================== -->
 <div *ngIf="paginaAtual === 'home'">
-  <div class="bg-dark text-white py-5 mb-5 text-center shadow-lg border-bottom border-secondary">
-    <div class="container py-5">
-      <h1 class="display-4 fw-bold mb-3">Excelência em Chapas e Layouts Industriais</h1>
-      <p class="lead text-muted mx-auto" style="max-width: 700px;">
-        A <strong class="text-white">FH Maruyama</strong> é referência no fornecimento e corte à medida de Polipropileno (PP), Poliestireno (PS), Madeira e Aço.
-      </p>
-      <div class="mt-4">
-        <button class="btn btn-danger btn-lg px-4 me-3 fw-bold" (click)="irParaPagina('login-cliente')">Aceder ao Simulador de Orçamentos</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="container mb-5">
-    <div class="row align-items-center mb-5">
-      <div class="col-md-6 mb-4 mb-md-0">
-        <h2 class="fw-bold text-dark mb-3">Quem Somos</h2>
-        <p class="text-muted">
-          Fundada com o compromisso de entregar precisão e qualidade, a <strong>FH Maruyama</strong> atende arquitetos, construtores e indústrias em todo o país.
-        </p>
-      </div>
-      <div class="col-md-6">
-        <div class="card bg-light border-0 shadow-sm p-4">
-          <h4 class="fw-bold text-primary mb-3">Os Nossos Pilares</h4>
-          <ul class="list-unstyled mb-0">
-            <li class="mb-2">✅ <strong>Precisão por Metro:</strong> Pagamento exato pela medida necessária.</li>
-            <li class="mb-2">✅ <strong>Gestão Dinâmica:</strong> Catálogo atualizado em tempo real.</li>
-          </ul>
+  <div class="container my-4">
+    
+    <!-- BARRA DE PESQUISA GERAL NO TOPO -->
+    <div class="row justify-content-center mb-4">
+      <div class="col-md-8">
+        <div class="input-group input-group-lg shadow-sm border border-warning rounded overflow-hidden">
+          <span class="input-group-text bg-dark border-0 text-warning">🔍</span>
+          <input 
+            type="text" 
+            class="form-control bg-dark text-white border-0 shadow-none" 
+            placeholder="Pesquisar chapas, polipropileno, polietileno, aço, madeira..." 
+            [(ngModel)]="termoPesquisa" 
+            (keyup.enter)="filtrarCategoria('')">
+          <button class="btn btn-warning fw-bold text-black px-4" type="button" (click)="filtrarCategoria('')">Buscar</button>
         </div>
       </div>
     </div>
 
-    <div class="text-center mb-4">
-      <h3 class="fw-bold text-dark">Materiais em Destaque</h3>
-    </div>
+    <!-- LAYOUT PRINCIPAL: MENU LATERAL ESQUERDO + CONTEÚDO INSTITUCIONAL -->
+    <div class="row">
+      
+      <!-- MENU LATERAL DE DEPARTAMENTOS COM SETAS (DIRECIONAM COM FILTRO) -->
+      <div class="col-md-3 mb-4">
+        <div class="card bg-dark border border-secondary shadow-sm text-white">
+          <div class="card-header bg-warning text-black fw-bold py-3">
+            📁 Departamentos de Materiais
+          </div>
+          <div class="list-group list-group-flush bg-transparent">
+            <a href="#" class="list-group-item list-group-item-action bg-dark text-white border-secondary d-flex justify-content-between align-items-center py-3" (click)="filtrarCategoria('PP'); $event.preventDefault()">
+              <span>🔲 Polipropileno (PP)</span>
+              <span class="text-warning fw-bold">›</span>
+            </a>
+            <a href="#" class="list-group-item list-group-item-action bg-dark text-white border-secondary d-flex justify-content-between align-items-center py-3" (click)="filtrarCategoria('PE'); $event.preventDefault()">
+              <span>📦 Polietileno (PE)</span>
+              <span class="text-warning fw-bold">›</span>
+            </a>
+            <a href="#" class="list-group-item list-group-item-action bg-dark text-white border-secondary d-flex justify-content-between align-items-center py-3" (click)="filtrarCategoria('Madeira'); $event.preventDefault()">
+              <span>🪵 Painéis de Madeira</span>
+              <span class="text-warning fw-bold">›</span>
+            </a>
+            <a href="#" class="list-group-item list-group-item-action bg-dark text-white border-secondary d-flex justify-content-between align-items-center py-3" (click)="filtrarCategoria('Aço'); $event.preventDefault()">
+              <span>⚙️ Chapas de Aço</span>
+              <span class="text-warning fw-bold">›</span>
+            </a>
+            <a href="#" class="list-group-item list-group-item-action bg-dark text-warning border-secondary fw-bold d-flex justify-content-between align-items-center py-3" (click)="filtrarCategoria(''); $event.preventDefault()">
+              <span>✨ Ver Catálogo Completo</span>
+              <span class="text-warning fw-bold">›</span>
+            </a>
+          </div>
+        </div>
 
-    <div class="row text-center">
-      <div class="col-md-3 mb-3" *ngFor="let p of clientes">
-        <div class="card h-100 shadow-sm border-0 p-3">
-          <span class="badge bg-secondary mb-2 align-self-center">{{ p.material }}</span>
-          <h5 class="fw-bold text-primary">{{ p.nome }}</h5>
-          <p class="small text-muted flex-grow-1">{{ p.descricao }}</p>
-          <span class="text-success fw-bold small">R$ {{ p.precoMetro.toFixed(2) }}/m</span>
+        <div class="card bg-dark border border-secondary shadow-sm text-white mt-4 p-3">
+          <h6 class="fw-bold text-warning mb-2">💡 Orçamento Rápido</h6>
+          <p class="small text-white-50 mb-0">Simule medidas exatas por metro e envie o seu pedido diretamente para a nossa equipa.</p>
         </div>
       </div>
+
+      <!-- CONTEÚDO INSTITUCIONAL -->
+      <div class="col-md-9">
+        
+        <!-- Banner Principal de Apresentação -->
+        <div class="bg-black text-white p-5 mb-4 rounded border border-secondary shadow-sm text-center">
+          <span class="badge bg-warning text-black px-3 py-2 mb-3 fw-bold">Compromisso e Excelência</span>
+          <h1 class="fw-bold display-6 mb-3">Bem-vindo à FH Maruyama</h1>
+          <p class="text-white-50 lead mx-auto" style="max-width: 700px;">
+            Especialistas no fornecimento e corte à medida de materiais industriais e de comunicação visual com alto rigor técnico.
+          </p>
+          <button class="btn btn-warning fw-bold text-black px-4 mt-3" (click)="filtrarCategoria('')">Aceder ao Simulador de Orçamentos</button>
+        </div>
+
+        <!-- Fluxo de Trabalho -->
+        <div class="card bg-dark border border-secondary p-4 mb-4 text-white shadow-sm">
+          <h4 class="fw-bold text-warning mb-4 text-center">O Nosso Processo de Atendimento</h4>
+          <div class="row text-center g-2 align-items-center justify-content-around">
+            <div class="col">
+              <div class="p-2 bg-black rounded border border-secondary">
+                <span class="fs-4">👤</span>
+                <p class="small m-0 mt-1 text-white-50">Clientes</p>
+              </div>
+            </div>
+            <div class="col-auto text-warning fw-bold">➔</div>
+            <div class="col">
+              <div class="p-2 bg-black rounded border border-secondary">
+                <span class="fs-4">💬</span>
+                <p class="small m-0 mt-1 text-white-50">Comercial</p>
+              </div>
+            </div>
+            <div class="col-auto text-warning fw-bold">➔</div>
+            <div class="col">
+              <div class="p-2 bg-black rounded border border-secondary">
+                <span class="fs-4">📐</span>
+                <p class="small m-0 mt-1 text-white-50">Criação</p>
+              </div>
+            </div>
+            <div class="col-auto text-warning fw-bold">➔</div>
+            <div class="col">
+              <div class="p-2 bg-black rounded border border-secondary">
+                <span class="fs-4">⚙️</span>
+                <p class="small m-0 mt-1 text-white-50">Produção</p>
+              </div>
+            </div>
+            <div class="col-auto text-warning fw-bold">➔</div>
+            <div class="col">
+              <div class="p-2 bg-black rounded border border-secondary">
+                <span class="fs-4">🚚</span>
+                <p class="small m-0 mt-1 text-white-50">Expedição</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Missão, Visão e Valores -->
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <div class="card bg-dark border border-secondary h-100 p-3 text-white shadow-sm">
+              <div class="text-warning fs-3 mb-2">🎯</div>
+              <h5 class="fw-bold text-warning">Missão</h5>
+              <p class="small text-white-50 m-0">
+                Entregar materiais e cortes de alta precisão para cada um dos nossos clientes, solucionando demandas com agilidade e qualidade.
+              </p>
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <div class="card bg-dark border border-secondary h-100 p-3 text-white shadow-sm">
+              <div class="text-warning fs-3 mb-2">👁️</div>
+              <h5 class="fw-bold text-warning">Visão</h5>
+              <p class="small text-white-50 m-0">
+                Tornar-se referência nacional na entrega de soluções práticas e duráveis em plásticos e painéis industriais.
+              </p>
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <div class="card bg-dark border border-secondary h-100 p-3 text-white shadow-sm">
+              <div class="text-warning fs-3 mb-2">💎</div>
+              <h5 class="fw-bold text-warning">Valores</h5>
+              <p class="small text-white-50 m-0">
+                Qualidade superior, atendimento personalizado, ética inegociável e rigoroso conhecimento técnico.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
     </div>
   </div>
 </div>
@@ -80,20 +179,20 @@
 <div class="container mt-5 mb-5" *ngIf="paginaAtual === 'login-cliente'">
   <div class="row justify-content-center">
     <div class="col-md-5">
-      <div class="card shadow border-0 p-4">
+      <div class="card shadow border border-secondary p-4 bg-dark text-white">
         <div class="text-center mb-4">
-          <h3 class="fw-bold text-dark">Login de Cliente</h3>
-          <p class="text-muted small">Insira o seu e-mail para simular orçamentos e efetuar pedidos.</p>
+          <h3 class="fw-bold text-white">Login de Cliente</h3>
+          <p class="text-white-50 small">Insira o seu e-mail para simular orçamentos e efetuar pedidos.</p>
         </div>
         <form (submit)="fazerLoginCliente($event)">
           <div class="mb-3">
-            <label class="form-label small fw-bold">E-mail:</label>
-            <input type="email" class="form-control" [(ngModel)]="dadosLogin.email" name="cliEmail" placeholder="cliente@email.com" required>
+            <label class="form-label small fw-bold text-white">E-mail:</label>
+            <input type="email" class="form-control bg-black text-white border-secondary" [(ngModel)]="dadosLogin.email" name="cliEmail" placeholder="cliente@email.com" required>
           </div>
-          <button type="submit" class="btn btn-dark w-100 fw-bold py-2">Entrar na Loja</button>
+          <button type="submit" class="btn btn-warning w-100 fw-bold py-2 text-black">Entrar na Loja</button>
         </form>
         <div class="text-center mt-3">
-          <button class="btn btn-link text-muted small text-decoration-none" (click)="irParaPagina('home')">← Voltar</button>
+          <button class="btn btn-link text-white-50 small text-decoration-none" (click)="irParaPagina('home')">← Voltar</button>
         </div>
       </div>
     </div>
@@ -106,24 +205,24 @@
 <div class="container mt-5 mb-5" *ngIf="paginaAtual === 'login-admin'">
   <div class="row justify-content-center">
     <div class="col-md-5">
-      <div class="card shadow border-0 p-4 border-top border-danger border-4">
+      <div class="card shadow border border-secondary p-4 border-top border-warning border-4 bg-dark text-white">
         <div class="text-center mb-4">
-          <h3 class="fw-bold text-danger">Área Restrita - Admin</h3>
-          <p class="text-muted small">Aceda para modificar valores, criar anúncios e postar novos itens.</p>
+          <h3 class="fw-bold text-warning">Área Restrita - Admin</h3>
+          <p class="text-white-50 small">Aceda para modificar valores, criar anúncios e postar novos itens.</p>
         </div>
         <form (submit)="fazerLoginAdmin($event)">
           <div class="mb-3">
-            <label class="form-label small fw-bold">E-mail de Admin:</label>
-            <input type="email" class="form-control" [(ngModel)]="dadosLogin.email" name="adminEmail" placeholder="Digite o seu e-mail" required>
+            <label class="form-label small fw-bold text-white">E-mail de Admin:</label>
+            <input type="email" class="form-control bg-black text-white border-secondary" [(ngModel)]="dadosLogin.email" name="adminEmail" placeholder="Digite o seu e-mail" required>
           </div>
           <div class="mb-3">
-            <label class="form-label small fw-bold">Palavra-passe:</label>
-            <input type="password" class="form-control" [(ngModel)]="dadosLogin.senha" name="adminSenha" placeholder="••••" required>
+            <label class="form-label small fw-bold text-white">Palavra-passe:</label>
+            <input type="password" class="form-control bg-black text-white border-secondary" [(ngModel)]="dadosLogin.senha" name="adminSenha" placeholder="••••" required>
           </div>
-          <button type="submit" class="btn btn-danger w-100 fw-bold py-2">Entrar no Painel Admin</button>
+          <button type="submit" class="btn btn-warning w-100 fw-bold py-2 text-black">Entrar no Painel Admin</button>
         </form>
         <div class="text-center mt-3">
-          <button class="btn btn-link text-muted small text-decoration-none" (click)="irParaPagina('home')">← Voltar</button>
+          <button class="btn btn-link text-white-50 small text-decoration-none" (click)="irParaPagina('home')">← Voltar</button>
         </div>
       </div>
     </div>
@@ -134,170 +233,176 @@
 <!-- 4. PAINEL DE ADMINISTRADOR (Gestão)       -->
 <!-- ========================================== -->
 <div class="container mt-5 mb-5" *ngIf="paginaAtual === 'admin-painel'">
-  <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+  <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom border-secondary">
     <div>
-      <h2 class="fw-bold text-danger">🛠️ Painel do Administrador - FH Maruyama</h2>
-      <p class="text-muted small m-0">Modifique preços, crie novos anúncios e adicione novos itens ao catálogo.</p>
+      <h2 class="fw-bold text-warning">🛠️ Painel do Administrador - FH Maruyama</h2>
+      <p class="text-white-50 small m-0">Modifique preços, crie novos anúncios e adicione novos itens ao catálogo.</p>
     </div>
-    <button class="btn btn-outline-dark btn-sm" (click)="irParaPagina('home')">Terminar Sessão / Sair</button>
+    <button class="btn btn-outline-light btn-sm" (click)="irParaPagina('home')">Terminar Sessão / Sair</button>
   </div>
 
-  <!-- Secção de Gestão de Anúncios e Avisos Globais -->
-  <div class="card shadow-sm border-0 p-4 mb-4 bg-light">
-    <h4 class="fw-bold text-dark mb-3">📢 Gerir Anúncio Global do Topo</h4>
+  <div class="card shadow-sm border border-secondary p-4 mb-4 bg-dark text-white">
+    <h4 class="fw-bold text-warning mb-3">📢 Gerir Anúncio Global do Topo</h4>
     <div class="input-group">
-      <input type="text" class="form-control" [(ngModel)]="anuncioGlobal" placeholder="Escreva a nova promoção ou aviso...">
-      <button class="btn btn-success fw-bold" type="button" (click)="atualizarAnuncioGlobal()">Atualizar Anúncio</button>
+      <input type="text" class="form-control bg-black text-white border-secondary" [(ngModel)]="anuncioGlobal" placeholder="Escreva a nova promoção ou aviso...">
+      <button class="btn btn-warning fw-bold text-black" type="button" (click)="atualizarAnuncioGlobal()">Atualizar Anúncio</button>
     </div>
   </div>
 
-  <!-- Secção para Cadastrar Novo Item -->
-  <div class="card shadow-sm border-0 p-4 mb-5 bg-white">
-    <h4 class="fw-bold text-primary mb-3">➕ Postar Novo Item / Material</h4>
+  <div class="card shadow-sm border border-secondary p-4 mb-5 bg-dark text-white">
+    <h4 class="fw-bold text-warning mb-3">➕ Postar Novo Item / Material</h4>
     <div class="row g-3">
-      <div class="col-md-4">
-        <label class="form-label small fw-bold">Nome do Produto:</label>
-        <input type="text" class="form-control" [(ngModel)]="novoProdutoAdmin.nome" placeholder="Ex: Chapa de Acrílico">
-      </div>
       <div class="col-md-3">
-        <label class="form-label small fw-bold">Sigla / Material:</label>
-        <input type="text" class="form-control" [(ngModel)]="novoProdutoAdmin.material" placeholder="Ex: Acrílico">
+        <label class="form-label small fw-bold text-white">Nome do Produto:</label>
+        <input type="text" class="form-control bg-black text-white border-secondary" [(ngModel)]="novoProdutoAdmin.nome" placeholder="Ex: Chapa de Acrílico">
       </div>
       <div class="col-md-2">
-        <label class="form-label small fw-bold">Preço por Metro (R$):</label>
-        <input type="number" class="form-control" [(ngModel)]="novoProdutoAdmin.precoMetro" placeholder="0.00">
+        <label class="form-label small fw-bold text-white">Sigla / Material:</label>
+        <input type="text" class="form-control bg-black text-white border-secondary" [(ngModel)]="novoProdutoAdmin.material" placeholder="Ex: PE">
+      </div>
+      <div class="col-md-2">
+        <label class="form-label small fw-bold text-white">Preço por Metro (R$):</label>
+        <input type="number" class="form-control bg-black text-white border-secondary" [(ngModel)]="novoProdutoAdmin.precoMetro" placeholder="0.00">
       </div>
       <div class="col-md-3">
-        <label class="form-label small fw-bold">Descrição Curta:</label>
-        <input type="text" class="form-control" [(ngModel)]="novoProdutoAdmin.descricao" placeholder="Alta transparência...">
+        <label class="form-label small fw-bold text-white">Link da Imagem:</label>
+        <input type="text" class="form-control bg-black text-white border-secondary" [(ngModel)]="novoProdutoAdmin.imagem" placeholder="https://...">
+      </div>
+      <div class="col-md-2">
+        <label class="form-label small fw-bold text-white">Descrição:</label>
+        <input type="text" class="form-control bg-black text-white border-secondary" [(ngModel)]="novoProdutoAdmin.descricao" placeholder="Alta resistência...">
       </div>
     </div>
-    <button class="btn btn-dark mt-3 px-4 fw-bold" (click)="adicionarProdutoAdmin()">Publicar Material na Loja</button>
+    <button class="btn btn-warning mt-3 px-4 fw-bold text-black" (click)="adicionarProdutoAdmin()">Publicar Material na Loja</button>
   </div>
 
-  <!-- Lista de Itens Existentes para Gestão -->
-  <h4 class="fw-bold text-dark mb-3">📦 Materiais Ativos no Catálogo</h4>
-  <div class="table-responsive bg-white shadow-sm rounded p-3 border">
-    <table class="table align-middle">
-      <thead class="table-dark">
+  <h4 class="fw-bold text-white mb-3">📦 Materiais Ativos no Catálogo</h4>
+  <div class="table-responsive bg-dark shadow-sm rounded p-3 border border-secondary text-white">
+    <table class="table align-middle table-dark">
+      <thead>
         <tr>
           <th>ID</th>
           <th>Material</th>
           <th>Nome</th>
-          <th>Preço por Metro</th>
+          <th>Preço/Metro</th>
           <th>Ações</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let p of clientes">
           <td>{{ p.id }}</td>
-          <td><span class="badge bg-secondary">{{ p.material }}</span></td>
+          <td><span class="badge bg-warning text-black">{{ p.material }}</span></td>
           <td><strong>{{ p.nome }}</strong></td>
           <td>
-            <input type="number" class="form-control form-control-sm w-50" [(ngModel)]="p.precoMetro" (ngModelChange)="alterarPrecoDireto()">
+            <input type="number" class="form-control form-control-sm w-50 bg-black text-white border-secondary" [(ngModel)]="p.precoMetro" (ngModelChange)="alterarPrecoDireto()">
           </td>
           <td>
-            <button class="btn btn-outline-danger btn-sm" (click)="removerProdutoAdmin(p.id)">Apagar</button>
+            <button class="btn btn-outline-warning btn-sm" (click)="removerProdutoAdmin(p.id)">Apagar</button>
           </td>
         </tr>
       </tbody>
     </table>
-    <div class="text-muted small">*(Pode alterar o preço diretamente na tabela e ele guarda e atualiza de imediato no simulador).*</div>
   </div>
 </div>
 
 <!-- ========================================== -->
-<!-- 5. PAINEL DA LOJA / CLIENTE                -->
+<!-- 5. PAINEL DA LOJA / SIMULADOR DE ORÇAMENTO -->
 <!-- ========================================== -->
 <div class="container mt-5 mb-5" *ngIf="paginaAtual === 'loja'">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
-      <h1 class="h3 fw-bold text-dark">Simulador de Orçamento - Chapas e Layouts</h1>
-      <p class="text-muted small m-0">Selecione a metragem, escolha a cor e adicione ao resumo do pedido.</p>
+      <h1 class="h3 fw-bold text-white">Simulador de Orçamento - Vitrine de Materiais</h1>
+      <p class="text-white-50 small m-0">Selecione a metragem, escolha a cor e adicione ao resumo do pedido.</p>
     </div>
-    <button class="btn btn-outline-secondary btn-sm" (click)="irParaPagina('home')">Sair / Voltar</button>
+    <button class="btn btn-outline-secondary btn-sm text-white" (click)="irParaPagina('home')">Sair / Voltar</button>
   </div>
 
-  <!-- BARRA DE PESQUISA -->
+  <!-- BARRA DE PESQUISA NA LOJA -->
   <div class="row justify-content-center mb-4" *ngIf="!exibirCheckout && !pedidoFinalizado">
     <div class="col-md-6">
       <div class="input-group shadow-sm">
-        <span class="input-group-text bg-white border-end-0 text-muted">🔍</span>
+        <span class="input-group-text bg-dark border-secondary text-white">🔍</span>
         <input 
           type="text" 
-          class="form-control border-start-0 ps-0" 
+          class="form-control bg-dark text-white border-secondary" 
           placeholder="Pesquisar material..." 
           [(ngModel)]="termoPesquisa">
-        <button class="btn btn-outline-secondary" type="button" *ngIf="termoPesquisa" (click)="termoPesquisa = ''">Limpar</button>
+        <button class="btn btn-outline-secondary text-white" type="button" *ngIf="termoPesquisa" (click)="termoPesquisa = ''">Limpar</button>
       </div>
     </div>
   </div>
 
   <!-- CATÁLOGO -->
   <div *ngIf="!exibirCheckout && !pedidoFinalizado">
-    <div class="alert alert-warning text-center" *ngIf="materiaisFiltrados.length === 0">
+    <div class="alert alert-warning text-center text-black" *ngIf="materiaisFiltrados.length === 0">
       Nenhum material encontrado com o termo "<strong>{{ termoPesquisa }}</strong>".
     </div>
 
     <div class="row">
       <div class="col-md-6 mb-4" *ngFor="let p of materiaisFiltrados">
-        <div class="card h-100 shadow-sm border-0">
-          <div class="card-body d-flex flex-column">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <span class="badge bg-secondary">{{ p.material }}</span>
-              <span class="text-success fw-bold">R$ {{ p.precoMetro.toFixed(2) }} / metro</span>
+        <div class="card h-100 shadow border border-secondary bg-dark text-white">
+          <div class="row g-0 h-100">
+            <!-- Imagem do Produto no Simulador -->
+            <div class="col-md-5 bg-black p-2 d-flex align-items-center justify-content-center border-end border-secondary">
+              <img [src]="p.imagem || 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500&auto=format&fit=crop&q=60'" [alt]="p.nome" class="img-fluid rounded w-100 h-100" style="object-fit: cover; max-height: 180px;">
             </div>
             
-            <h5 class="card-title fw-bold text-primary">{{ p.nome }}</h5>
-            <p class="card-text text-muted small flex-grow-1">{{ p.descricao }}</p>
-            
-            <!-- Calculadora -->
-            <div class="bg-light p-3 rounded mt-3 border">
-              <h6 class="fw-bold mb-3 text-dark">Simular Orçamento:</h6>
-              
-              <div class="row g-2 mb-2">
-                <div class="col-6">
-                  <label class="form-label small fw-bold">Metros (m):</label>
-                  <input type="number" class="form-control form-control-sm" [(ngModel)]="metragens[p.id]" min="1">
+            <div class="col-md-7 d-flex flex-column">
+              <div class="card-body d-flex flex-column p-3">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="badge bg-warning text-black">{{ p.material }}</span>
+                  <span class="text-success fw-bold">R$ {{ p.precoMetro.toFixed(2) }}/m</span>
                 </div>
                 
-                <div class="col-6">
-                  <label class="form-label small fw-bold">Cor:</label>
-                  <select class="form-select form-select-sm" [(ngModel)]="corSelecionada[p.id]">
-                    <option value="" disabled selected>Escolha</option>
-                    <option *ngFor="let cor of p.cores" [value]="cor">{{ cor }}</option>
-                  </select>
+                <h5 class="card-title fw-bold text-warning fs-6">{{ p.nome }}</h5>
+                <p class="card-text text-white-50 small flex-grow-1" style="font-size: 0.8rem;">{{ p.descricao }}</p>
+                
+                <!-- Calculadora de Metros -->
+                <div class="bg-black p-2 rounded mt-2 border border-secondary">
+                  <div class="row g-2 mb-2">
+                    <div class="col-6">
+                      <label class="form-label text-white" style="font-size: 0.7rem;">Metros:</label>
+                      <input type="number" class="form-control form-control-sm bg-dark text-white border-secondary" [(ngModel)]="metragens[p.id]" min="1">
+                    </div>
+                    <div class="col-6">
+                      <label class="form-label text-white" style="font-size: 0.7rem;">Cor:</label>
+                      <select class="form-select form-select-sm bg-dark text-white border-secondary" [(ngModel)]="corSelecionada[p.id]">
+                        <option value="" disabled selected>Cor</option>
+                        <option *ngFor="let cor of p.cores" [value]="cor">{{ cor }}</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="d-flex justify-content-between align-items-center pt-1 border-top border-secondary">
+                    <span class="text-white-50" style="font-size: 0.75rem;">Total:</span>
+                    <span class="fw-bold text-warning" style="font-size: 0.9rem;">
+                      R$ {{ (((metragens[p.id] && metragens[p.id] > 0 ? metragens[p.id] : 0)) * p.precoMetro).toFixed(2) }}
+                    </span>
+                  </div>
+
+                  <button class="btn btn-warning w-100 mt-2 btn-sm fw-bold text-black py-1" (click)="adicionarAoCarrinho(p)">
+                    Adicionar ao Pedido
+                  </button>
                 </div>
-              </div>
 
-              <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top">
-                <span class="small text-muted">Total Estimado:</span>
-                <span class="fs-5 fw-bold text-danger">
-                  R$ {{ (((metragens[p.id] && metragens[p.id] > 0 ? metragens[p.id] : 0)) * p.precoMetro).toFixed(2) }}
-                </span>
               </div>
-
-              <button class="btn btn-dark w-100 mt-3 btn-sm fw-bold" (click)="adicionarAoCarrinho(p)">
-                Adicionar ao Pedido
-              </button>
             </div>
-
           </div>
         </div>
       </div>
     </div>
 
     <!-- RESUMO / CARRINHO -->
-    <div class="mt-5 p-4 bg-white shadow rounded border" *ngIf="carrinho.length > 0">
+    <div class="mt-5 p-4 bg-dark shadow rounded border border-secondary text-white" *ngIf="carrinho.length > 0">
       <div class="d-flex justify-content-between align-items-center mb-3">
-        <h3 class="fw-bold m-0 text-dark">Resumo do Pedido</h3>
-        <span class="badge bg-dark fs-6">Itens: {{ carrinho.length }}</span>
+        <h3 class="fw-bold m-0 text-white">Resumo do Pedido</h3>
+        <span class="badge bg-warning text-black fs-6">Itens: {{ carrinho.length }}</span>
       </div>
-      <hr>
+      <hr class="border-secondary">
       
       <div class="table-responsive">
-        <table class="table align-middle">
-          <thead class="table-dark">
+        <table class="table align-middle table-dark">
+          <thead>
             <tr>
               <th>Material</th>
               <th>Cor</th>
@@ -309,62 +414,62 @@
           <tbody>
             <tr *ngFor="let item of carrinho; let i = index">
               <td><strong>{{ item.nomeProduto }}</strong></td>
-              <td><span class="badge bg-info text-dark">{{ item.cor }}</span></td>
+              <td><span class="badge bg-warning text-black">{{ item.cor }}</span></td>
               <td>{{ item.metragem }} m</td>
               <td class="text-success fw-bold">R$ {{ item.precoTotal.toFixed(2) }}</td>
               <td>
-                <button class="btn btn-outline-danger btn-sm" (click)="removerItem(i)">Remover</button>
+                <button class="btn btn-outline-warning btn-sm" (click)="removerItem(i)">Remover</button>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
-        <h4 class="fw-bold m-0">Total Geral: <span class="text-success">R$ {{ totalGeral.toFixed(2) }}</span></h4>
-        <button class="btn btn-success btn-lg fw-bold px-4" (click)="irParaCheckout()">Avançar para Checkout</button>
+      <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top border-secondary">
+        <h4 class="fw-bold m-0 text-white">Total Geral: <span class="text-success">R$ {{ totalGeral.toFixed(2) }}</span></h4>
+        <button class="btn btn-warning btn-lg fw-bold px-4 text-black" (click)="irParaCheckout()">Avançar para Checkout</button>
       </div>
     </div>
   </div>
 
   <!-- CHECKOUT -->
-  <div class="card shadow border-0 p-4 bg-light" *ngIf="exibirCheckout && !pedidoFinalizado">
-    <h2 class="fw-bold text-dark mb-3">Finalizar Orçamento</h2>
-    <p class="text-muted">Preencha os seus dados para receber o orçamento oficial.</p>
-    <hr>
+  <div class="card shadow border border-secondary p-4 bg-dark text-white" *ngIf="exibirCheckout && !pedidoFinalizado">
+    <h2 class="fw-bold text-warning mb-3">Finalizar Orçamento</h2>
+    <p class="text-white-50">Preencha os seus dados para receber o orçamento oficial.</p>
+    <hr class="border-secondary">
 
     <div class="row">
       <div class="col-md-7 mb-4">
-        <h5 class="fw-bold mb-3">Dados de Contacto</h5>
+        <h5 class="fw-bold mb-3 text-white">Dados de Contacto</h5>
         <div class="mb-3">
-          <label class="form-label fw-bold small">Nome Completo:</label>
-          <input type="text" class="form-control" [(ngModel)]="cliente.nome" placeholder="Digite o seu nome">
+          <label class="form-label fw-bold small text-white">Nome Completo:</label>
+          <input type="text" class="form-control bg-black text-white border-secondary" [(ngModel)]="cliente.nome" placeholder="Digite o seu nome">
         </div>
         <div class="row">
           <div class="col-md-6 mb-3">
-            <label class="form-label fw-bold small">E-mail:</label>
-            <input type="email" class="form-control" [(ngModel)]="cliente.email" placeholder="seu@email.com">
+            <label class="form-label fw-bold small text-white">E-mail:</label>
+            <input type="email" class="form-control bg-black text-white border-secondary" [(ngModel)]="cliente.email" placeholder="seu@email.com">
           </div>
           <div class="col-md-6 mb-3">
-            <label class="form-label fw-bold small">Telemóvel:</label>
-            <input type="text" class="form-control" [(ngModel)]="cliente.telefone" placeholder="(00) 00000-0000">
+            <label class="form-label fw-bold small text-white">Telemóvel:</label>
+            <input type="text" class="form-control bg-black text-white border-secondary" [(ngModel)]="cliente.telefone" placeholder="(00) 00000-0000">
           </div>
         </div>
         <div class="mb-3">
-          <label class="form-label fw-bold small">Morada:</label>
-          <textarea class="form-control" rows="2" [(ngModel)]="cliente.morada" placeholder="Rua, Número, Bairro"></textarea>
+          <label class="form-label fw-bold small text-white">Morada:</label>
+          <textarea class="form-control bg-black text-white border-secondary" rows="2" [(ngModel)]="cliente.morada" placeholder="Rua, Número, Bairro"></textarea>
         </div>
       </div>
       <div class="col-md-5">
-        <div class="card p-3 border shadow-sm bg-white">
-          <h5 class="fw-bold mb-3">Resumo da Compra</h5>
-          <ul class="list-group list-group-flush mb-3 small">
-            <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let item of carrinho">
+        <div class="card p-3 border border-secondary shadow-sm bg-black text-white">
+          <h5 class="fw-bold mb-3 text-warning">Resumo da Compra</h5>
+          <ul class="list-group list-group-flush mb-3 small bg-transparent">
+            <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent text-white border-secondary" *ngFor="let item of carrinho">
               <span>{{ item.nomeProduto }} ({{ item.cor }} - {{ item.metragem }}m)</span>
               <strong>R$ {{ item.precoTotal.toFixed(2) }}</strong>
             </li>
           </ul>
-          <div class="d-flex justify-content-between fw-bold fs-5 pt-2 border-top">
+          <div class="d-flex justify-content-between fw-bold fs-5 pt-2 border-top border-secondary">
             <span>Total:</span>
             <span class="text-success">R$ {{ totalGeral.toFixed(2) }}</span>
           </div>
@@ -372,37 +477,40 @@
       </div>
     </div>
 
-    <div class="d-flex justify-content-between mt-4 pt-3 border-top">
-      <button class="btn btn-outline-secondary px-4" (click)="voltarAoCarrinho()">Voltar</button>
-      <button class="btn btn-success px-5 fw-bold" (click)="finalizarPedido()">Confirmar Pedido</button>
+    <div class="d-flex justify-content-between mt-4 pt-3 border-top border-secondary">
+      <button class="btn btn-outline-light px-4" (click)="voltarAoCarrinho()">Voltar</button>
+      <button class="btn btn-warning px-5 fw-bold text-black" (click)="finalizarPedido()">Confirmar Pedido</button>
     </div>
   </div>
 
   <!-- SUCESSO -->
-  <div class="card shadow border-0 p-5 text-center bg-white" *ngIf="pedidoFinalizado">
-    <h2 class="fw-bold text-dark">Pedido Registado com Sucesso!</h2>
-    <p class="text-muted mt-2">Obrigado, <strong>{{ cliente.nome }}</strong>. O orçamento foi enviado.</p>
+  <div class="card shadow border border-secondary p-5 text-center bg-dark text-white" *ngIf="pedidoFinalizado">
+    <h2 class="fw-bold text-warning">Pedido Registado com Sucesso!</h2>
+    <p class="text-white-50 mt-2">Obrigado, <strong class="text-white">{{ cliente.nome }}</strong>. O orçamento foi enviado.</p>
     <div class="mt-4">
-      <button class="btn btn-dark px-4 fw-bold" (click)="novoPedido()">Fazer Novo Pedido</button>
+      <button class="btn btn-warning px-4 fw-bold text-black" (click)="novoPedido()">Fazer Novo Pedido</button>
     </div>
   </div>
 </div>
 
 <!-- RODAPÉ -->
-<footer class="bg-dark text-white py-4 mt-auto border-top border-secondary">
+<footer class="bg-black text-white py-4 mt-auto border-top border-warning">
   <div class="container text-center">
     <div class="row">
       <div class="col-md-4 mb-3 mb-md-0 text-md-start">
-        <h5 class="fw-bold"><span class="text-white">F</span><span class="text-danger">H</span> Maruyama</h5>
-        <p class="small text-muted mb-0">Especialistas em chapas e materiais industriais.</p>
+        <h5 class="fw-bold d-flex align-items-center gap-2">
+          <img src="assets/logo.jpeg" alt="FH Maruyama" style="height: 30px; border-radius: 3px;">
+          <span>FH Maruyama</span>
+        </h5>
+        <p class="small text-white-50 mb-0">Especialistas em chapas e materiais industriais.</p>
       </div>
       <div class="col-md-4 mb-3 mb-md-0">
-        <h6 class="fw-bold text-uppercase small text-secondary">Contacto</h6>
-        <p class="small text-muted mb-0">São Paulo, SP</p>
+        <h6 class="fw-bold text-uppercase small text-warning">Contacto</h6>
+        <p class="small text-white-50 mb-0">São Paulo, SP</p>
       </div>
       <div class="col-md-4 text-md-end">
-        <h6 class="fw-bold text-uppercase small text-secondary">Sistema</h6>
-        <p class="small text-muted mb-0">Angular & Bootstrap | &copy; 2026</p>
+        <h6 class="fw-bold text-uppercase small text-warning">Sistema</h6>
+        <p class="small text-white-50 mb-0">Angular & Bootstrap | &copy; 2026</p>
       </div>
     </div>
   </div>

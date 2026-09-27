@@ -12,12 +12,12 @@ import { ItemCarrinho } from '../models/item-carrinho.model';
   styleUrl: './clientes.css'
 })
 export class Clientes implements OnInit {
-  // Lista de produtos padrão ou carregada do localStorage
-  clientes: Cliente[] = [
-    { id: 1, nome: 'Chapa de PP (Polipropileno)', material: 'PP', precoMetro: 45.50, descricao: 'Alta resistência química e flexibilidade.', cores: ['Branco', 'Preto', 'Azul', 'Vermelho'] },
-    { id: 2, nome: 'Chapa de PS (Poliestireno)', material: 'PS', precoMetro: 38.00, descricao: 'Excelente para comunicação visual.', cores: ['Branco', 'Amarelo', 'Preto', 'Transparente'] },
-    { id: 3, nome: 'Painel de Madeira', material: 'Madeira', precoMetro: 120.00, descricao: 'Acabamento nobre para projetos.', cores: ['Natural', 'Carvalho', 'Nogueira', 'Preto Fosco'] },
-    { id: 4, nome: 'Chapa de Aço', material: 'Aço', precoMetro: 210.90, descricao: 'Máxima durabilidade e robustez.', cores: ['Inox Escovado', 'Preto Brilho', 'Galvanizado'] }
+  // Lista oficial de produtos com os caminhos corretos apontando para a pasta public/assets/
+  clientes: Array<Cliente & { imagem?: string }> = [
+    { id: 1, nome: 'Chapa de PP (Polipropileno)', material: 'PP', precoMetro: 45.50, descricao: 'Alta resistência química e flexibilidade.', cores: ['Branco', 'Preto', 'Azul', 'Vermelho'], imagem: 'assets/pp.jpg' },
+    { id: 2, nome: 'Chapa de PE (Polietileno)', material: 'PE', precoMetro: 38.00, descricao: 'Excelente para comunicação visual e sinalização.', cores: ['Branco Leitoso', 'Cristal', 'Preto'], imagem: 'assets/pe.jpg' },
+    { id: 3, nome: 'Painel de Madeira', material: 'Madeira', precoMetro: 120.00, descricao: 'Acabamento nobre para projetos.', cores: ['Natural', 'Carvalho', 'Nogueira', 'Preto Fosco'], imagem: 'https://images.unsplash.com/photo-1546484396-fb3fc6f95f98?w=500&auto=format&fit=crop&q=60' },
+    { id: 4, nome: 'Chapa de Aço', material: 'Aço', precoMetro: 210.90, descricao: 'Máxima durabilidade e robustez.', cores: ['Inox Escovado', 'Preto Brilho', 'Galvanizado'], imagem: 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=500&auto=format&fit=crop&q=60' }
   ];
 
   metragens: { [key: number]: number } = { 1: 1, 2: 1, 3: 1, 4: 1 };
@@ -42,22 +42,31 @@ export class Clientes implements OnInit {
     senha: ''
   };
 
-  anuncioGlobal: string = '🔥 Condição Especial: Frete grátis para cortes acima de 50 metros em chapas de PP e PS! Aproveite!';
+  anuncioGlobal: string = '🔥 Condição Especial: Frete grátis para cortes acima de 50 metros em chapas de PP e PE! Aproveite!';
 
-  novoProdutoAdmin: Cliente = {
+  novoProdutoAdmin: Cliente & { imagem?: string } = {
     id: 0,
     nome: '',
     material: '',
     precoMetro: 0,
     descricao: '',
-    cores: ['Branco', 'Preto']
+    cores: ['Branco', 'Preto'],
+    imagem: ''
   };
 
-  // Carrega os dados salvos no navegador assim que o componente inicia
   ngOnInit() {
+    // Força a atualização do catálogo para limpar o storage antigo e assumir as imagens locais
+    const versaoCatalogo = localStorage.getItem('fh_versao_catalogo');
+    if (versaoCatalogo !== 'v7') {
+      localStorage.removeItem('fh_produtos');
+      localStorage.setItem('fh_versao_catalogo', 'v7');
+    }
+
     const produtosSalvos = localStorage.getItem('fh_produtos');
     if (produtosSalvos) {
       this.clientes = JSON.parse(produtosSalvos);
+    } else {
+      this.salvarProdutosNoStorage();
     }
 
     const anuncioSalvo = localStorage.getItem('fh_anuncio');
@@ -71,12 +80,10 @@ export class Clientes implements OnInit {
     }
   }
 
-  // Função auxiliar para salvar os produtos no localStorage
   salvarProdutosNoStorage() {
     localStorage.setItem('fh_produtos', JSON.stringify(this.clientes));
   }
 
-  // Função auxiliar para salvar o carrinho no localStorage
   salvarCarrinhoNoStorage() {
     localStorage.setItem('fh_carrinho', JSON.stringify(this.carrinho));
   }
@@ -90,6 +97,15 @@ export class Clientes implements OnInit {
     this.paginaAtual = pagina;
     this.exibirCheckout = false;
     this.pedidoFinalizado = false;
+    window.scrollTo(0, 0);
+  }
+
+  filtrarCategoria(categoria: string) {
+    this.termoPesquisa = categoria;
+    this.paginaAtual = 'loja';
+    this.exibirCheckout = false;
+    this.pedidoFinalizado = false;
+    window.scrollTo(0, 0);
   }
 
   fazerLoginCliente(event: Event) {
@@ -125,13 +141,14 @@ export class Clientes implements OnInit {
       material: this.novoProdutoAdmin.material || 'Geral',
       precoMetro: Number(this.novoProdutoAdmin.precoMetro),
       descricao: this.novoProdutoAdmin.descricao || 'Material industrial de alta qualidade.',
-      cores: ['Branco', 'Preto', 'Natural']
+      cores: ['Branco', 'Preto', 'Natural'],
+      imagem: this.novoProdutoAdmin.imagem || 'assets/logo.jpeg'
     });
 
     this.metragens[novoId] = 1;
     this.salvarProdutosNoStorage();
 
-    this.novoProdutoAdmin = { id: 0, nome: '', material: '', precoMetro: 0, descricao: '', cores: ['Branco', 'Preto'] };
+    this.novoProdutoAdmin = { id: 0, nome: '', material: '', precoMetro: 0, descricao: '', cores: ['Branco', 'Preto'], imagem: '' };
     alert('Novo material cadastrado e guardado com sucesso!');
   }
 
@@ -142,7 +159,6 @@ export class Clientes implements OnInit {
     }
   }
 
-  // Chamado sempre que o admin altera um preço diretamente na tabela do painel
   alterarPrecoDireto() {
     this.salvarProdutosNoStorage();
   }
@@ -177,6 +193,7 @@ export class Clientes implements OnInit {
     });
 
     this.salvarCarrinhoNoStorage();
+    alert('Material adicionado ao pedido com sucesso!');
   }
 
   removerItem(index: number) {
@@ -207,7 +224,7 @@ export class Clientes implements OnInit {
     }
     this.pedidoFinalizado = true;
     this.carrinho = [];
-    localStorage.removeItem('fh_carrinho'); // Limpa o carrinho após finalizar
+    localStorage.removeItem('fh_carrinho');
   }
 
   novoPedido() {
@@ -217,5 +234,6 @@ export class Clientes implements OnInit {
     this.pedidoFinalizado = false;
     this.cliente = { nome: '', email: '', telefone: '', morada: '' };
     this.termoPesquisa = '';
+    this.irParaPagina('home');
   }
 }
