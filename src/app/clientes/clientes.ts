@@ -12,12 +12,44 @@ import { ItemCarrinho } from '../models/item-carrinho.model';
   styleUrl: './clientes.css'
 })
 export class Clientes implements OnInit {
-  // Lista oficial de produtos com os caminhos corretos apontando para a pasta public/assets/
+  // Lista oficial de produtos focada em fabricação de produtos personalizados (Coolers, Bandejas, Caixas e Painéis)
   clientes: Array<Cliente & { imagem?: string }> = [
-    { id: 1, nome: 'Chapa de PP (Polipropileno)', material: 'PP', precoMetro: 45.50, descricao: 'Alta resistência química e flexibilidade.', cores: ['Branco', 'Preto', 'Azul', 'Vermelho'], imagem: 'assets/pp.jpg' },
-    { id: 2, nome: 'Chapa de PE (Polietileno)', material: 'PE', precoMetro: 38.00, descricao: 'Excelente para comunicação visual e sinalização.', cores: ['Branco Leitoso', 'Cristal', 'Preto'], imagem: 'assets/pe.jpg' },
-    { id: 3, nome: 'Painel de Madeira', material: 'Madeira', precoMetro: 120.00, descricao: 'Acabamento nobre para projetos.', cores: ['Natural', 'Carvalho', 'Nogueira', 'Preto Fosco'], imagem: 'https://images.unsplash.com/photo-1546484396-fb3fc6f95f98?w=500&auto=format&fit=crop&q=60' },
-    { id: 4, nome: 'Chapa de Aço', material: 'Aço', precoMetro: 210.90, descricao: 'Máxima durabilidade e robustez.', cores: ['Inox Escovado', 'Preto Brilho', 'Galvanizado'], imagem: 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=500&auto=format&fit=crop&q=60' }
+    { 
+      id: 1, 
+      nome: 'Cooler Térmico Industrial em PP', 
+      material: 'PP', 
+      precoMetro: 180.00, 
+      descricao: 'Cooler fabricado em polipropileno de alta resistência, ideal para personalização e eventos.', 
+      cores: ['Preto', 'Branco', 'Azul Industrial'], 
+      imagem: 'assets/pp.jpg' 
+    },
+    { 
+      id: 2, 
+      nome: 'Bandeja Organizadora e Expositora', 
+      material: 'PS', 
+      precoMetro: 95.50, 
+      descricao: 'Bandeja estruturada em poliestireno, perfeita para organização e expositores.', 
+      cores: ['Preto Fosco', 'Branco Brilhante', 'Cinza'], 
+      imagem: 'assets/pe.jpg' 
+    },
+    { 
+      id: 3, 
+      nome: 'Painel Decorativo e Expositor em Madeira', 
+      material: 'Madeira', 
+      precoMetro: 150.00, 
+      descricao: 'Painéis e suportes em chapa de madeira tratados para corte de precisão e acabamento fino.', 
+      cores: ['MDF Natural', 'Carvalho', 'Preto Fosco'], 
+      imagem: 'https://images.unsplash.com/photo-1546484396-fb3fc6f95f98?w=500&auto=format&fit=crop&q=60' 
+    },
+    { 
+      id: 4, 
+      nome: 'Caixa Técnica e Suporte em Chapa de Aço', 
+      material: 'Aço', 
+      precoMetro: 240.00, 
+      descricao: 'Caixas de proteção e estruturas cortadas e dobradas sob medida em chapa de aço resistente.', 
+      cores: ['Inox Escovado', 'Preto Texturizado', 'Galvanizado'], 
+      imagem: 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=500&auto=format&fit=crop&q=60' 
+    }
   ];
 
   metragens: { [key: number]: number } = { 1: 1, 2: 1, 3: 1, 4: 1 };
@@ -34,6 +66,16 @@ export class Clientes implements OnInit {
     morada: ''
   };
 
+  // Objeto para o formulário de pedido personalizado
+  pedidoPersonalizado = {
+    tipoProduto: '',
+    material: '',
+    cor: '',
+    quantidade: 1,
+    precoEstimado: 150.00,
+    observacoes: ''
+  };
+
   termoPesquisa: string = '';
   paginaAtual: string = 'home';
   
@@ -42,7 +84,7 @@ export class Clientes implements OnInit {
     senha: ''
   };
 
-  anuncioGlobal: string = '🔥 Condição Especial: Frete grátis para cortes acima de 50 metros em chapas de PP e PE! Aproveite!';
+  anuncioGlobal: string = '🔥 Condição Especial: Frete grátis para encomendas de fabricação acima de 5 unidades! Aproveite!';
 
   novoProdutoAdmin: Cliente & { imagem?: string } = {
     id: 0,
@@ -55,11 +97,11 @@ export class Clientes implements OnInit {
   };
 
   ngOnInit() {
-    // Força a atualização do catálogo para limpar o storage antigo e assumir as imagens locais
+    // Versão v9 para forçar o reset do localStorage e assumir as alterações
     const versaoCatalogo = localStorage.getItem('fh_versao_catalogo');
-    if (versaoCatalogo !== 'v7') {
+    if (versaoCatalogo !== 'v9') {
       localStorage.removeItem('fh_produtos');
-      localStorage.setItem('fh_versao_catalogo', 'v7');
+      localStorage.setItem('fh_versao_catalogo', 'v9');
     }
 
     const produtosSalvos = localStorage.getItem('fh_produtos');
@@ -108,6 +150,29 @@ export class Clientes implements OnInit {
     window.scrollTo(0, 0);
   }
 
+  adicionarPedidoPersonalizado(event: Event) {
+    event.preventDefault();
+    
+    if (!this.pedidoPersonalizado.tipoProduto || !this.pedidoPersonalizado.material || !this.pedidoPersonalizado.cor) {
+      alert('Por favor, preencha o produto, o material e a cor!');
+      return;
+    }
+
+    const totalCalculado = this.pedidoPersonalizado.quantidade * this.pedidoPersonalizado.precoEstimado;
+
+    this.carrinho.push({
+      nomeProduto: `${this.pedidoPersonalizado.tipoProduto} (${this.pedidoPersonalizado.material})`,
+      material: this.pedidoPersonalizado.material,
+      cor: this.pedidoPersonalizado.cor,
+      metragem: this.pedidoPersonalizado.quantidade,
+      precoTotal: totalCalculado
+    });
+
+    this.salvarCarrinhoNoStorage();
+    alert('Pedido personalizado adicionado ao carrinho com sucesso!');
+    this.irParaPagina('loja');
+  }
+
   fazerLoginCliente(event: Event) {
     event.preventDefault();
     if (!this.dadosLogin.email) {
@@ -129,7 +194,7 @@ export class Clientes implements OnInit {
 
   adicionarProdutoAdmin() {
     if (!this.novoProdutoAdmin.nome || this.novoProdutoAdmin.precoMetro <= 0) {
-      alert('Preencha o nome e um preço válido por metro!');
+      alert('Preencha o nome e um preço válido!');
       return;
     }
 
@@ -140,7 +205,7 @@ export class Clientes implements OnInit {
       nome: this.novoProdutoAdmin.nome,
       material: this.novoProdutoAdmin.material || 'Geral',
       precoMetro: Number(this.novoProdutoAdmin.precoMetro),
-      descricao: this.novoProdutoAdmin.descricao || 'Material industrial de alta qualidade.',
+      descricao: this.novoProdutoAdmin.descricao || 'Produto fabricado sob medida.',
       cores: ['Branco', 'Preto', 'Natural'],
       imagem: this.novoProdutoAdmin.imagem || 'assets/logo.jpeg'
     });
@@ -149,11 +214,11 @@ export class Clientes implements OnInit {
     this.salvarProdutosNoStorage();
 
     this.novoProdutoAdmin = { id: 0, nome: '', material: '', precoMetro: 0, descricao: '', cores: ['Branco', 'Preto'], imagem: '' };
-    alert('Novo material cadastrado e guardado com sucesso!');
+    alert('Novo produto cadastrado e guardado com sucesso!');
   }
 
   removerProdutoAdmin(id: number) {
-    if (confirm('Tem certeza que deseja apagar este material do catálogo?')) {
+    if (confirm('Tem certeza que deseja apagar este produto do catálogo?')) {
       this.clientes = this.clientes.filter(p => p.id !== id);
       this.salvarProdutosNoStorage();
     }
@@ -178,7 +243,7 @@ export class Clientes implements OnInit {
     const cor = this.corSelecionada[produto.id];
 
     if (!cor) {
-      alert('Por favor, selecione uma cor antes de adicionar ao pedido!');
+      alert('Por favor, selecione um acabamento/cor antes de adicionar ao pedido!');
       return;
     }
 
@@ -193,7 +258,7 @@ export class Clientes implements OnInit {
     });
 
     this.salvarCarrinhoNoStorage();
-    alert('Material adicionado ao pedido com sucesso!');
+    alert('Produto adicionado ao pedido com sucesso!');
   }
 
   removerItem(index: number) {

@@ -10,6 +10,7 @@
     <div class="d-flex align-items-center gap-2">
       <button class="btn btn-outline-light btn-sm" (click)="irParaPagina('home')">Início</button>
       <button class="btn btn-outline-warning btn-sm" (click)="filtrarCategoria('')">Catálogo & Simulador</button>
+      <button class="btn btn-outline-warning btn-sm" (click)="irParaPagina('personalizado')">✨ Pedido Personalizado</button>
       <button class="btn btn-outline-warning btn-sm" (click)="irParaPagina('login-cliente')">Login Cliente</button>
       <button class="btn btn-warning btn-sm fw-bold px-3 text-black" (click)="irParaPagina('login-admin')">Painel Admin</button>
     </div>
@@ -35,7 +36,7 @@
           <input 
             type="text" 
             class="form-control bg-dark text-white border-0 shadow-none" 
-            placeholder="Pesquisar chapas, polipropileno, polietileno, aço, madeira..." 
+            placeholder="Pesquisar coolers, bandejas, caixas em PP, PS, Aço, Madeira..." 
             [(ngModel)]="termoPesquisa" 
             (keyup.enter)="filtrarCategoria('')">
           <button class="btn btn-warning fw-bold text-black px-4" type="button" (click)="filtrarCategoria('')">Buscar</button>
@@ -50,23 +51,23 @@
       <div class="col-md-3 mb-4">
         <div class="card bg-dark border border-secondary shadow-sm text-white">
           <div class="card-header bg-warning text-black fw-bold py-3">
-            📁 Departamentos de Materiais
+            📁 Linhas de Fabricação
           </div>
           <div class="list-group list-group-flush bg-transparent">
             <a href="#" class="list-group-item list-group-item-action bg-dark text-white border-secondary d-flex justify-content-between align-items-center py-3" (click)="filtrarCategoria('PP'); $event.preventDefault()">
-              <span>🔲 Polipropileno (PP)</span>
+              <span>🧊 Polipropileno (PP) - Coolers</span>
               <span class="text-warning fw-bold">›</span>
             </a>
-            <a href="#" class="list-group-item list-group-item-action bg-dark text-white border-secondary d-flex justify-content-between align-items-center py-3" (click)="filtrarCategoria('PE'); $event.preventDefault()">
-              <span>📦 Polietileno (PE)</span>
+            <a href="#" class="list-group-item list-group-item-action bg-dark text-white border-secondary d-flex justify-content-between align-items-center py-3" (click)="filtrarCategoria('PS'); $event.preventDefault()">
+              <span>📦 Poliestireno (PS/PE)</span>
+              <span class="text-warning fw-bold">›</span>
+            </a>
+            <a href="#" class="list-group-item list-group-item-action bg-dark text-white border-secondary d-flex justify-content-between align-items-center py-3" (click)="filtrarCategoria('Aço'); $event.preventDefault()">
+              <span>⚙️ Chapas de Aço - Caixas</span>
               <span class="text-warning fw-bold">›</span>
             </a>
             <a href="#" class="list-group-item list-group-item-action bg-dark text-white border-secondary d-flex justify-content-between align-items-center py-3" (click)="filtrarCategoria('Madeira'); $event.preventDefault()">
               <span>🪵 Painéis de Madeira</span>
-              <span class="text-warning fw-bold">›</span>
-            </a>
-            <a href="#" class="list-group-item list-group-item-action bg-dark text-white border-secondary d-flex justify-content-between align-items-center py-3" (click)="filtrarCategoria('Aço'); $event.preventDefault()">
-              <span>⚙️ Chapas de Aço</span>
               <span class="text-warning fw-bold">›</span>
             </a>
             <a href="#" class="list-group-item list-group-item-action bg-dark text-warning border-secondary fw-bold d-flex justify-content-between align-items-center py-3" (click)="filtrarCategoria(''); $event.preventDefault()">
@@ -77,8 +78,8 @@
         </div>
 
         <div class="card bg-dark border border-secondary shadow-sm text-white mt-4 p-3">
-          <h6 class="fw-bold text-warning mb-2">💡 Orçamento Rápido</h6>
-          <p class="small text-white-50 mb-0">Simule medidas exatas por metro e envie o seu pedido diretamente para a nossa equipa.</p>
+          <h6 class="fw-bold text-warning mb-2">💡 Projeto Sob Medida</h6>
+          <p class="small text-white-50 mb-0">Fabricamos coolers, bandejas e peças estruturadas com exatidão para o seu projeto.</p>
         </div>
       </div>
 
@@ -87,50 +88,50 @@
         
         <!-- Banner Principal de Apresentação -->
         <div class="bg-black text-white p-5 mb-4 rounded border border-secondary shadow-sm text-center">
-          <span class="badge bg-warning text-black px-3 py-2 mb-3 fw-bold">Compromisso e Excelência</span>
+          <span class="badge bg-warning text-black px-3 py-2 mb-3 fw-bold">Fabricação Própria & Personalizada</span>
           <h1 class="fw-bold display-6 mb-3">Bem-vindo à FH Maruyama</h1>
           <p class="text-white-50 lead mx-auto" style="max-width: 700px;">
-            Especialistas no fornecimento e corte à medida de materiais industriais e de comunicação visual com alto rigor técnico.
+            Especialistas na fabricação de coolers, bandejas, caixas e suportes exclusivos em Polipropileno (PP), Poliestireno (PS), Aço e Madeira.
           </p>
-          <button class="btn btn-warning fw-bold text-black px-4 mt-3" (click)="filtrarCategoria('')">Aceder ao Simulador de Orçamentos</button>
+          <button class="btn btn-warning fw-bold text-black px-4 mt-3" (click)="irParaPagina('personalizado')">✨ Fazer Pedido Personalizado</button>
         </div>
 
         <!-- Fluxo de Trabalho -->
         <div class="card bg-dark border border-secondary p-4 mb-4 text-white shadow-sm">
-          <h4 class="fw-bold text-warning mb-4 text-center">O Nosso Processo de Atendimento</h4>
+          <h4 class="fw-bold text-warning mb-4 text-center">O Nosso Processo de Fabricação</h4>
           <div class="row text-center g-2 align-items-center justify-content-around">
             <div class="col">
               <div class="p-2 bg-black rounded border border-secondary">
                 <span class="fs-4">👤</span>
-                <p class="small m-0 mt-1 text-white-50">Clientes</p>
+                <p class="small m-0 mt-1 text-white-50">Cliente</p>
               </div>
             </div>
             <div class="col-auto text-warning fw-bold">➔</div>
             <div class="col">
               <div class="p-2 bg-black rounded border border-secondary">
                 <span class="fs-4">💬</span>
-                <p class="small m-0 mt-1 text-white-50">Comercial</p>
+                <p class="small m-0 mt-1 text-white-50">Orçamento</p>
               </div>
             </div>
             <div class="col-auto text-warning fw-bold">➔</div>
             <div class="col">
               <div class="p-2 bg-black rounded border border-secondary">
                 <span class="fs-4">📐</span>
-                <p class="small m-0 mt-1 text-white-50">Criação</p>
+                <p class="small m-0 mt-1 text-white-50">Design/Corte</p>
               </div>
             </div>
             <div class="col-auto text-warning fw-bold">➔</div>
             <div class="col">
               <div class="p-2 bg-black rounded border border-secondary">
                 <span class="fs-4">⚙️</span>
-                <p class="small m-0 mt-1 text-white-50">Produção</p>
+                <p class="small m-0 mt-1 text-white-50">Fabricação</p>
               </div>
             </div>
             <div class="col-auto text-warning fw-bold">➔</div>
             <div class="col">
               <div class="p-2 bg-black rounded border border-secondary">
                 <span class="fs-4">🚚</span>
-                <p class="small m-0 mt-1 text-white-50">Expedição</p>
+                <p class="small m-0 mt-1 text-white-50">Entrega</p>
               </div>
             </div>
           </div>
@@ -143,7 +144,7 @@
               <div class="text-warning fs-3 mb-2">🎯</div>
               <h5 class="fw-bold text-warning">Missão</h5>
               <p class="small text-white-50 m-0">
-                Entregar materiais e cortes de alta precisão para cada um dos nossos clientes, solucionando demandas com agilidade e qualidade.
+                Fabricar peças e utensílios funcionais de alta precisão (coolers, bandejas e suportes) utilizando polímeros, aço e madeira com excelência.
               </p>
             </div>
           </div>
@@ -152,7 +153,7 @@
               <div class="text-warning fs-3 mb-2">👁️</div>
               <h5 class="fw-bold text-warning">Visão</h5>
               <p class="small text-white-50 m-0">
-                Tornar-se referência nacional na entrega de soluções práticas e duráveis em plásticos e painéis industriais.
+                Ser reconhecida pela qualidade superior na fabricação de produtos personalizados em plástico, aço e madeira no mercado.
               </p>
             </div>
           </div>
@@ -161,7 +162,7 @@
               <div class="text-warning fs-3 mb-2">💎</div>
               <h5 class="fw-bold text-warning">Valores</h5>
               <p class="small text-white-50 m-0">
-                Qualidade superior, atendimento personalizado, ética inegociável e rigoroso conhecimento técnico.
+                Inovação no design de produtos, rigor técnico na fabricação, durabilidade e compromisso absoluto com o cliente.
               </p>
             </div>
           </div>
@@ -174,7 +175,90 @@
 </div>
 
 <!-- ========================================== -->
-<!-- 2. LOGIN DE CLIENTE -->
+<!-- 2. PEDIDO / ORÇAMENTO PERSONALIZADO        -->
+<!-- ========================================== -->
+<div class="container mt-5 mb-5" *ngIf="paginaAtual === 'personalizado'">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1 class="h3 fw-bold text-warning">🛠️ Simulador de Fabricação Sob Medida</h1>
+      <p class="text-white-50 small m-0">Personalize o seu produto: escolha o item, material base, acabamento e dimensões exatas.</p>
+    </div>
+    <button class="btn btn-outline-secondary btn-sm text-white" (click)="irParaPagina('home')">Voltar ao Início</button>
+  </div>
+
+  <div class="card shadow border border-secondary p-4 bg-dark text-white">
+    <form (submit)="adicionarPedidoPersonalizado($event)">
+      <div class="row g-3">
+        
+        <!-- Tipo de Produto -->
+        <div class="col-md-6">
+          <label class="form-label fw-bold small text-white">O que deseja mandar fabricar?</label>
+          <select class="form-select bg-black text-white border-secondary" [(ngModel)]="pedidoPersonalizado.tipoProduto" name="tipoProduto" required>
+            <option value="" disabled selected>Selecione o produto...</option>
+            <option value="Cooler Térmico">Cooler Térmico Industrial</option>
+            <option value="Bandeja Organizadora">Bandeja Organizadora / Expositora</option>
+            <option value="Caixa Técnica">Caixa Técnica de Proteção</option>
+            <option value="Painel / Suporte">Painel Decorativo / Suporte</option>
+            <option value="Peça Especial sob Desenho">Outra Peça Especial sob Desenho</option>
+          </select>
+        </div>
+
+        <!-- Material Base -->
+        <div class="col-md-6">
+          <label class="form-label fw-bold small text-white">Material Base:</label>
+          <select class="form-select bg-black text-white border-secondary" [(ngModel)]="pedidoPersonalizado.material" name="material" required>
+            <option value="" disabled selected>Selecione o material...</option>
+            <option value="PP (Polipropileno)">Polipropileno (PP)</option>
+            <option value="PS/PE (Poliestireno/Polietileno)">Poliestireno / Polietileno (PS/PE)</option>
+            <option value="Chapa de Aço">Chapa de Aço</option>
+            <option value="Chapa de Madeira">Chapa de Madeira</option>
+          </select>
+        </div>
+
+        <!-- Cor / Acabamento -->
+        <div class="col-md-4">
+          <label class="form-label fw-bold small text-white">Cor / Acabamento:</label>
+          <select class="form-select bg-black text-white border-secondary" [(ngModel)]="pedidoPersonalizado.cor" name="cor" required>
+            <option value="" disabled selected>Selecione a cor...</option>
+            <option value="Preto">Preto</option>
+            <option value="Branco">Branco</option>
+            <option value="Azul Industrial">Azul Industrial</option>
+            <option value="Cinza Metálico">Cinza Metálico</option>
+            <option value="Inox Escovado">Inox Escovado</option>
+            <option value="Madeira Natural / MDF">Madeira Natural / MDF</option>
+          </select>
+        </div>
+
+        <!-- Quantidade / Metros -->
+        <div class="col-md-4">
+          <label class="form-label fw-bold small text-white">Quantidade / Metros:</label>
+          <input type="number" class="form-control bg-black text-white border-secondary" [(ngModel)]="pedidoPersonalizado.quantidade" name="quantidade" min="1" placeholder="Ex: 5" required>
+        </div>
+
+        <!-- Estimativa de Preço -->
+        <div class="col-md-4">
+          <label class="form-label fw-bold small text-warning">Estimativa de Preço (R$):</label>
+          <input type="number" class="form-control bg-black text-warning fw-bold border-secondary" [(ngModel)]="pedidoPersonalizado.precoEstimado" name="precoEstimado" placeholder="0.00" required>
+        </div>
+
+        <!-- Observações -->
+        <div class="col-12">
+          <label class="form-label fw-bold small text-white">Especificações Técnicas / Observações (Medidas exatas, furos, gravação de logotipo):</label>
+          <textarea class="form-control bg-black text-white border-secondary" rows="3" [(ngModel)]="pedidoPersonalizado.observacoes" name="observacoes" placeholder="Descreva os detalhes do corte, dimensões em cm ou exigências especiais..."></textarea>
+        </div>
+
+      </div>
+
+      <div class="mt-4 pt-3 border-top border-secondary d-flex justify-content-end gap-2">
+        <button type="button" class="btn btn-outline-light px-4" (click)="irParaPagina('home')">Cancelar</button>
+        <button type="submit" class="btn btn-warning px-5 fw-bold text-black">Adicionar ao Carrinho de Pedidos</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- 3. LOGIN DE CLIENTE -->
 <!-- ========================================== -->
 <div class="container mt-5 mb-5" *ngIf="paginaAtual === 'login-cliente'">
   <div class="row justify-content-center">
@@ -182,7 +266,7 @@
       <div class="card shadow border border-secondary p-4 bg-dark text-white">
         <div class="text-center mb-4">
           <h3 class="fw-bold text-white">Login de Cliente</h3>
-          <p class="text-white-50 small">Insira o seu e-mail para simular orçamentos e efetuar pedidos.</p>
+          <p class="text-white-50 small">Insira o seu e-mail para simular orçamentos e encomendar produtos.</p>
         </div>
         <form (submit)="fazerLoginCliente($event)">
           <div class="mb-3">
@@ -200,7 +284,7 @@
 </div>
 
 <!-- ========================================== -->
-<!-- 3. LOGIN DE ADMINISTRADOR -->
+<!-- 4. LOGIN DE ADMINISTRADOR -->
 <!-- ========================================== -->
 <div class="container mt-5 mb-5" *ngIf="paginaAtual === 'login-admin'">
   <div class="row justify-content-center">
@@ -208,7 +292,7 @@
       <div class="card shadow border border-secondary p-4 border-top border-warning border-4 bg-dark text-white">
         <div class="text-center mb-4">
           <h3 class="fw-bold text-warning">Área Restrita - Admin</h3>
-          <p class="text-white-50 small">Aceda para modificar valores, criar anúncios e postar novos itens.</p>
+          <p class="text-white-50 small">Aceda para gerir a produção, preços e novos produtos fabricados.</p>
         </div>
         <form (submit)="fazerLoginAdmin($event)">
           <div class="mb-3">
@@ -230,13 +314,13 @@
 </div>
 
 <!-- ========================================== -->
-<!-- 4. PAINEL DE ADMINISTRADOR (Gestão)       -->
+<!-- 5. PAINEL DE ADMINISTRADOR (Gestão)       -->
 <!-- ========================================== -->
 <div class="container mt-5 mb-5" *ngIf="paginaAtual === 'admin-painel'">
   <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom border-secondary">
     <div>
       <h2 class="fw-bold text-warning">🛠️ Painel do Administrador - FH Maruyama</h2>
-      <p class="text-white-50 small m-0">Modifique preços, crie novos anúncios e adicione novos itens ao catálogo.</p>
+      <p class="text-white-50 small m-0">Modifique preços de fabricação, crie anúncios e adicione novos produtos.</p>
     </div>
     <button class="btn btn-outline-light btn-sm" (click)="irParaPagina('home')">Terminar Sessão / Sair</button>
   </div>
@@ -250,18 +334,18 @@
   </div>
 
   <div class="card shadow-sm border border-secondary p-4 mb-5 bg-dark text-white">
-    <h4 class="fw-bold text-warning mb-3">➕ Postar Novo Item / Material</h4>
+    <h4 class="fw-bold text-warning mb-3">➕ Registar Novo Produto Fabricado</h4>
     <div class="row g-3">
       <div class="col-md-3">
         <label class="form-label small fw-bold text-white">Nome do Produto:</label>
-        <input type="text" class="form-control bg-black text-white border-secondary" [(ngModel)]="novoProdutoAdmin.nome" placeholder="Ex: Chapa de Acrílico">
+        <input type="text" class="form-control bg-black text-white border-secondary" [(ngModel)]="novoProdutoAdmin.nome" placeholder="Ex: Cooler Especial PP">
       </div>
       <div class="col-md-2">
-        <label class="form-label small fw-bold text-white">Sigla / Material:</label>
-        <input type="text" class="form-control bg-black text-white border-secondary" [(ngModel)]="novoProdutoAdmin.material" placeholder="Ex: PE">
+        <label class="form-label small fw-bold text-white">Material Base:</label>
+        <input type="text" class="form-control bg-black text-white border-secondary" [(ngModel)]="novoProdutoAdmin.material" placeholder="Ex: PP / Aço">
       </div>
       <div class="col-md-2">
-        <label class="form-label small fw-bold text-white">Preço por Metro (R$):</label>
+        <label class="form-label small fw-bold text-white">Preço Base (R$):</label>
         <input type="number" class="form-control bg-black text-white border-secondary" [(ngModel)]="novoProdutoAdmin.precoMetro" placeholder="0.00">
       </div>
       <div class="col-md-3">
@@ -270,21 +354,21 @@
       </div>
       <div class="col-md-2">
         <label class="form-label small fw-bold text-white">Descrição:</label>
-        <input type="text" class="form-control bg-black text-white border-secondary" [(ngModel)]="novoProdutoAdmin.descricao" placeholder="Alta resistência...">
+        <input type="text" class="form-control bg-black text-white border-secondary" [(ngModel)]="novoProdutoAdmin.descricao" placeholder="Fabricado sob medida...">
       </div>
     </div>
-    <button class="btn btn-warning mt-3 px-4 fw-bold text-black" (click)="adicionarProdutoAdmin()">Publicar Material na Loja</button>
+    <button class="btn btn-warning mt-3 px-4 fw-bold text-black" (click)="adicionarProdutoAdmin()">Adicionar ao Catálogo</button>
   </div>
 
-  <h4 class="fw-bold text-white mb-3">📦 Materiais Ativos no Catálogo</h4>
+  <h4 class="fw-bold text-white mb-3">📦 Produtos Ativos na Fábrica</h4>
   <div class="table-responsive bg-dark shadow-sm rounded p-3 border border-secondary text-white">
     <table class="table align-middle table-dark">
       <thead>
         <tr>
           <th>ID</th>
           <th>Material</th>
-          <th>Nome</th>
-          <th>Preço/Metro</th>
+          <th>Produto</th>
+          <th>Preço Base</th>
           <th>Ações</th>
         </tr>
       </thead>
@@ -306,13 +390,13 @@
 </div>
 
 <!-- ========================================== -->
-<!-- 5. PAINEL DA LOJA / SIMULADOR DE ORÇAMENTO -->
+<!-- 6. PAINEL DA LOJA / SIMULADOR DE ORÇAMENTO -->
 <!-- ========================================== -->
 <div class="container mt-5 mb-5" *ngIf="paginaAtual === 'loja'">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
-      <h1 class="h3 fw-bold text-white">Simulador de Orçamento - Vitrine de Materiais</h1>
-      <p class="text-white-50 small m-0">Selecione a metragem, escolha a cor e adicione ao resumo do pedido.</p>
+      <h1 class="h3 fw-bold text-white">Simulador e Catálogo de Produtos Fabricados</h1>
+      <p class="text-white-50 small m-0">Personalize medidas, escolha o acabamento e adicione o seu pedido de fabricação.</p>
     </div>
     <button class="btn btn-outline-secondary btn-sm text-white" (click)="irParaPagina('home')">Sair / Voltar</button>
   </div>
@@ -325,7 +409,7 @@
         <input 
           type="text" 
           class="form-control bg-dark text-white border-secondary" 
-          placeholder="Pesquisar material..." 
+          placeholder="Pesquisar coolers, bandejas, caixas..." 
           [(ngModel)]="termoPesquisa">
         <button class="btn btn-outline-secondary text-white" type="button" *ngIf="termoPesquisa" (click)="termoPesquisa = ''">Limpar</button>
       </div>
@@ -335,7 +419,7 @@
   <!-- CATÁLOGO -->
   <div *ngIf="!exibirCheckout && !pedidoFinalizado">
     <div class="alert alert-warning text-center text-black" *ngIf="materiaisFiltrados.length === 0">
-      Nenhum material encontrado com o termo "<strong>{{ termoPesquisa }}</strong>".
+      Nenhum produto encontrado com o termo "<strong>{{ termoPesquisa }}</strong>".
     </div>
 
     <div class="row">
@@ -351,23 +435,23 @@
               <div class="card-body d-flex flex-column p-3">
                 <div class="d-flex justify-content-between align-items-center mb-2">
                   <span class="badge bg-warning text-black">{{ p.material }}</span>
-                  <span class="text-success fw-bold">R$ {{ p.precoMetro.toFixed(2) }}/m</span>
+                  <span class="text-success fw-bold">R$ {{ p.precoMetro.toFixed(2) }}</span>
                 </div>
                 
                 <h5 class="card-title fw-bold text-warning fs-6">{{ p.nome }}</h5>
                 <p class="card-text text-white-50 small flex-grow-1" style="font-size: 0.8rem;">{{ p.descricao }}</p>
                 
-                <!-- Calculadora de Metros -->
+                <!-- Calculadora de Medidas / Quantidade -->
                 <div class="bg-black p-2 rounded mt-2 border border-secondary">
                   <div class="row g-2 mb-2">
                     <div class="col-6">
-                      <label class="form-label text-white" style="font-size: 0.7rem;">Metros:</label>
+                      <label class="form-label text-white" style="font-size: 0.7rem;">Qtd / Medida:</label>
                       <input type="number" class="form-control form-control-sm bg-dark text-white border-secondary" [(ngModel)]="metragens[p.id]" min="1">
                     </div>
                     <div class="col-6">
-                      <label class="form-label text-white" style="font-size: 0.7rem;">Cor:</label>
+                      <label class="form-label text-white" style="font-size: 0.7rem;">Cor / Acabamento:</label>
                       <select class="form-select form-select-sm bg-dark text-white border-secondary" [(ngModel)]="corSelecionada[p.id]">
-                        <option value="" disabled selected>Cor</option>
+                        <option value="" disabled selected>Acabamento</option>
                         <option *ngFor="let cor of p.cores" [value]="cor">{{ cor }}</option>
                       </select>
                     </div>
@@ -395,7 +479,7 @@
     <!-- RESUMO / CARRINHO -->
     <div class="mt-5 p-4 bg-dark shadow rounded border border-secondary text-white" *ngIf="carrinho.length > 0">
       <div class="d-flex justify-content-between align-items-center mb-3">
-        <h3 class="fw-bold m-0 text-white">Resumo do Pedido</h3>
+        <h3 class="fw-bold m-0 text-white">Resumo dos Produtos Fabricados</h3>
         <span class="badge bg-warning text-black fs-6">Itens: {{ carrinho.length }}</span>
       </div>
       <hr class="border-secondary">
@@ -404,9 +488,9 @@
         <table class="table align-middle table-dark">
           <thead>
             <tr>
-              <th>Material</th>
-              <th>Cor</th>
-              <th>Metragem</th>
+              <th>Produto</th>
+              <th>Acabamento</th>
+              <th>Quantidade</th>
               <th>Subtotal</th>
               <th>Ações</th>
             </tr>
@@ -415,7 +499,7 @@
             <tr *ngFor="let item of carrinho; let i = index">
               <td><strong>{{ item.nomeProduto }}</strong></td>
               <td><span class="badge bg-warning text-black">{{ item.cor }}</span></td>
-              <td>{{ item.metragem }} m</td>
+              <td>{{ item.metragem }} un.</td>
               <td class="text-success fw-bold">R$ {{ item.precoTotal.toFixed(2) }}</td>
               <td>
                 <button class="btn btn-outline-warning btn-sm" (click)="removerItem(i)">Remover</button>
@@ -434,13 +518,13 @@
 
   <!-- CHECKOUT -->
   <div class="card shadow border border-secondary p-4 bg-dark text-white" *ngIf="exibirCheckout && !pedidoFinalizado">
-    <h2 class="fw-bold text-warning mb-3">Finalizar Orçamento</h2>
-    <p class="text-white-50">Preencha os seus dados para receber o orçamento oficial.</p>
+    <h2 class="fw-bold text-warning mb-3">Finalizar Encomenda / Fabrico</h2>
+    <p class="text-white-50">Preencha os seus dados para formalizar o pedido de fabricação.</p>
     <hr class="border-secondary">
 
     <div class="row">
       <div class="col-md-7 mb-4">
-        <h5 class="fw-bold mb-3 text-white">Dados de Contacto</h5>
+        <h5 class="fw-bold mb-3 text-white">Dados de Contacto e Entrega</h5>
         <div class="mb-3">
           <label class="form-label fw-bold small text-white">Nome Completo:</label>
           <input type="text" class="form-control bg-black text-white border-secondary" [(ngModel)]="cliente.nome" placeholder="Digite o seu nome">
@@ -456,16 +540,16 @@
           </div>
         </div>
         <div class="mb-3">
-          <label class="form-label fw-bold small text-white">Morada:</label>
-          <textarea class="form-control bg-black text-white border-secondary" rows="2" [(ngModel)]="cliente.morada" placeholder="Rua, Número, Bairro"></textarea>
+          <label class="form-label fw-bold small text-white">Morada de Entrega:</label>
+          <textarea class="form-control bg-black text-white border-secondary" rows="2" [(ngModel)]="cliente.morada" placeholder="Rua, Número, Bairro, Cidade"></textarea>
         </div>
       </div>
       <div class="col-md-5">
         <div class="card p-3 border border-secondary shadow-sm bg-black text-white">
-          <h5 class="fw-bold mb-3 text-warning">Resumo da Compra</h5>
+          <h5 class="fw-bold mb-3 text-warning">Resumo do Pedido</h5>
           <ul class="list-group list-group-flush mb-3 small bg-transparent">
             <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent text-white border-secondary" *ngFor="let item of carrinho">
-              <span>{{ item.nomeProduto }} ({{ item.cor }} - {{ item.metragem }}m)</span>
+              <span>{{ item.nomeProduto }} ({{ item.cor }} - {{ item.metragem }}un)</span>
               <strong>R$ {{ item.precoTotal.toFixed(2) }}</strong>
             </li>
           </ul>
@@ -479,16 +563,16 @@
 
     <div class="d-flex justify-content-between mt-4 pt-3 border-top border-secondary">
       <button class="btn btn-outline-light px-4" (click)="voltarAoCarrinho()">Voltar</button>
-      <button class="btn btn-warning px-5 fw-bold text-black" (click)="finalizarPedido()">Confirmar Pedido</button>
+      <button class="btn btn-warning px-5 fw-bold text-black" (click)="finalizarPedido()">Confirmar Pedido de Fabrico</button>
     </div>
   </div>
 
   <!-- SUCESSO -->
   <div class="card shadow border border-secondary p-5 text-center bg-dark text-white" *ngIf="pedidoFinalizado">
-    <h2 class="fw-bold text-warning">Pedido Registado com Sucesso!</h2>
-    <p class="text-white-50 mt-2">Obrigado, <strong class="text-white">{{ cliente.nome }}</strong>. O orçamento foi enviado.</p>
+    <h2 class="fw-bold text-warning">Encomenda Registada com Sucesso!</h2>
+    <p class="text-white-50 mt-2">Obrigado, <strong class="text-white">{{ cliente.nome }}</strong>. O seu pedido de fabricação foi enviado para a nossa equipa.</p>
     <div class="mt-4">
-      <button class="btn btn-warning px-4 fw-bold text-black" (click)="novoPedido()">Fazer Novo Pedido</button>
+      <button class="btn btn-warning px-4 fw-bold text-black" (click)="novoPedido()">Fazer Nova Encomenda</button>
     </div>
   </div>
 </div>
@@ -502,7 +586,7 @@
           <img src="assets/logo.jpeg" alt="FH Maruyama" style="height: 30px; border-radius: 3px;">
           <span>FH Maruyama</span>
         </h5>
-        <p class="small text-white-50 mb-0">Especialistas em chapas e materiais industriais.</p>
+        <p class="small text-white-50 mb-0">Fabricação de coolers, bandejas e peças em PP, PS, Aço e Madeira.</p>
       </div>
       <div class="col-md-4 mb-3 mb-md-0">
         <h6 class="fw-bold text-uppercase small text-warning">Contacto</h6>
