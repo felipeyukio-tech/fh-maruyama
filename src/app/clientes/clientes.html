@@ -150,7 +150,7 @@
           </div>
           <div class="col-md-4 mb-3">
             <div class="card bg-dark border border-secondary h-100 p-3 text-white shadow-sm">
-              <div class="text-warning fs-3 mb-2">👁️</div>
+              <div class="text-warning fs-3 mb-2">👁</div>
               <h5 class="fw-bold text-warning">Visão</h5>
               <p class="small text-white-50 m-0">
                 Ser reconhecida pela qualidade superior na fabricação de produtos personalizados em plástico, aço e madeira no mercado.
@@ -426,46 +426,81 @@
       <div class="col-md-6 mb-4" *ngFor="let p of materiaisFiltrados">
         <div class="card h-100 shadow border border-secondary bg-dark text-white">
           <div class="row g-0 h-100">
-            <!-- Imagem do Produto no Simulador -->
+            
+            <!-- COMPONENTE 3D DINÂMICO LIGADO ÀS MEDIDAS, COR E LOGÓTIPO -->
             <div class="col-md-5 bg-black p-2 d-flex align-items-center justify-content-center border-end border-secondary">
-              <img [src]="p.imagem || 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=500&auto=format&fit=crop&q=60'" [alt]="p.nome" class="img-fluid rounded w-100 h-100" style="object-fit: cover; max-height: 180px;">
+              <app-produto-3d 
+                [largura]="dimensoes[p.id] ? dimensoes[p.id].largura : 40" 
+                [altura]="dimensoes[p.id] ? dimensoes[p.id].altura : 30" 
+                [profundidade]="dimensoes[p.id] ? dimensoes[p.id].profundidade : 30"
+                [materialTipo]="p.material.toLowerCase().includes('pp') ? 'pp' : (p.material.toLowerCase().includes('ps') ? 'ps' : (p.material.toLowerCase().includes('madeira') ? 'madeira' : 'aco'))"
+                [corDesejada]="corSelecionada[p.id]"
+                [textoLogotipo]="logotipos[p.id] || ''">
+              </app-produto-3d>
             </div>
             
             <div class="col-md-7 d-flex flex-column">
               <div class="card-body d-flex flex-column p-3">
                 <div class="d-flex justify-content-between align-items-center mb-2">
                   <span class="badge bg-warning text-black">{{ p.material }}</span>
-                  <span class="text-success fw-bold">R$ {{ p.precoMetro.toFixed(2) }}</span>
+                  <span class="text-success fw-bold">Base: R$ {{ p.precoMetro.toFixed(2) }}</span>
                 </div>
                 
                 <h5 class="card-title fw-bold text-warning fs-6">{{ p.nome }}</h5>
-                <p class="card-text text-white-50 small flex-grow-1" style="font-size: 0.8rem;">{{ p.descricao }}</p>
+                <p class="card-text text-white-50 small flex-grow-1" style="font-size: 0.75rem;">{{ p.descricao }}</p>
                 
-                <!-- Calculadora de Medidas / Quantidade -->
+                <!-- SIMULADOR DE MEDIDAS E PREÇO DINÂMICO -->
                 <div class="bg-black p-2 rounded mt-2 border border-secondary">
+                  
+                  <div class="row g-1 mb-2">
+                    <div class="col-4">
+                      <label class="form-label text-white-50" style="font-size: 0.65rem;">Largura (cm):</label>
+                      <input type="number" class="form-control form-control-sm bg-dark text-white border-secondary text-center" [(ngModel)]="dimensoes[p.id].largura" (ngModelChange)="calcularPrecoDinamico(p.id)" min="10">
+                    </div>
+                    <div class="col-4">
+                      <label class="form-label text-white-50" style="font-size: 0.65rem;">Altura (cm):</label>
+                      <input type="number" class="form-control form-control-sm bg-dark text-white border-secondary text-center" [(ngModel)]="dimensoes[p.id].altura" (ngModelChange)="calcularPrecoDinamico(p.id)" min="10">
+                    </div>
+                    <div class="col-4">
+                      <label class="form-label text-white-50" style="font-size: 0.65rem;">Prof. (cm):</label>
+                      <input type="number" class="form-control form-control-sm bg-dark text-white border-secondary text-center" [(ngModel)]="dimensoes[p.id].profundidade" (ngModelChange)="calcularPrecoDinamico(p.id)" min="10">
+                    </div>
+                  </div>
+
+                  <!-- CAMPO DE LOGÓTIPO PERSONALIZADO -->
+                  <div class="mb-2">
+                    <label class="form-label text-warning" style="font-size: 0.65rem;">Gravação de Logótipo / Nome:</label>
+                    <input type="text" class="form-control form-control-sm bg-dark text-white border-secondary text-center" [(ngModel)]="logotipos[p.id]" placeholder="Ex: SUA EMPRESA" maxlength="15">
+                  </div>
+
                   <div class="row g-2 mb-2">
                     <div class="col-6">
-                      <label class="form-label text-white" style="font-size: 0.7rem;">Qtd / Medida:</label>
-                      <input type="number" class="form-control form-control-sm bg-dark text-white border-secondary" [(ngModel)]="metragens[p.id]" min="1">
+                      <label class="form-label text-white" style="font-size: 0.7rem;">Quantidade:</label>
+                      <input type="number" class="form-control form-control-sm bg-dark text-white border-secondary" [(ngModel)]="quantidades[p.id]" min="1" (ngModelChange)="calcularPrecoDinamico(p.id)">
                     </div>
                     <div class="col-6">
-                      <label class="form-label text-white" style="font-size: 0.7rem;">Cor / Acabamento:</label>
+                      <label class="form-label text-white" style="font-size: 0.7rem;">Acabamento:</label>
                       <select class="form-select form-select-sm bg-dark text-white border-secondary" [(ngModel)]="corSelecionada[p.id]">
-                        <option value="" disabled selected>Acabamento</option>
+                        <option value="" disabled selected>Cor</option>
                         <option *ngFor="let cor of p.cores" [value]="cor">{{ cor }}</option>
                       </select>
                     </div>
                   </div>
 
                   <div class="d-flex justify-content-between align-items-center pt-1 border-top border-secondary">
-                    <span class="text-white-50" style="font-size: 0.75rem;">Total:</span>
-                    <span class="fw-bold text-warning" style="font-size: 0.9rem;">
-                      R$ {{ (((metragens[p.id] && metragens[p.id] > 0 ? metragens[p.id] : 0)) * p.precoMetro).toFixed(2) }}
+                    <span class="text-white-50" style="font-size: 0.75rem;">Total Calculado:</span>
+                    <span class="fw-bold text-warning" style="font-size: 0.95rem;">
+                      R$ {{ (precosCalculados[p.id] || p.precoMetro).toFixed(2) }}
                     </span>
                   </div>
 
-                  <button class="btn btn-warning w-100 mt-2 btn-sm fw-bold text-black py-1" (click)="adicionarAoCarrinho(p)">
+                  <button class="btn btn-warning w-100 mt-2 btn-sm fw-bold text-black py-1" (click)="adicionarAoCarrinhoDinamico(p)">
                     Adicionar ao Pedido
+                  </button>
+
+                  <!-- BOTÃO DE REALIDADE AUMENTADA (AR) -->
+                  <button class="btn btn-outline-info w-100 mt-1 btn-sm fw-bold text-white" style="font-size: 0.75rem;" (click)="abrirModalAR(p)">
+                    📱 Ver em Realidade Aumentada (AR)
                   </button>
                 </div>
 
@@ -574,6 +609,57 @@
     <div class="mt-4">
       <button class="btn btn-warning px-4 fw-bold text-black" (click)="novoPedido()">Fazer Nova Encomenda</button>
     </div>
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- CHATBOT DE ENGENHARIA - FLUTUANTE          -->
+<!-- ========================================== -->
+<div class="position-fixed bottom-0 end-0 m-4" style="z-index: 1050;">
+  <!-- Botão de Acesso Rápido ao Chat -->
+  <button class="btn btn-warning rounded-circle shadow-lg p-3 text-black fw-bold d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;" (click)="toggleChatbot()" title="Assistente de Engenharia">
+    🤖
+  </button>
+  
+  <!-- Janela de Conversação -->
+  <div class="card bg-dark border border-warning text-white shadow-lg mt-2" *ngIf="chatbotAberto" style="width: 330px; height: 420px; display: flex; flex-direction: column; border-radius: 10px; overflow: hidden;">
+    
+    <!-- Cabeçalho do Chat -->
+    <div class="card-header bg-warning text-black fw-bold d-flex justify-content-between align-items-center py-2 px-3">
+      <span class="d-flex align-items-center gap-2">
+        <span>🤖</span> Assistente Técnico FH
+      </span>
+      <button type="button" class="btn-close btn-close-black btn-sm" (click)="toggleChatbot()"></button>
+    </div>
+    
+    <!-- Corpo das Mensagens -->
+    <div class="card-body overflow-auto flex-grow-1 p-3 small" style="background: #020617; display: flex; flex-direction: column; gap: 8px;">
+      <div class="text-start">
+        <span class="badge bg-secondary text-white p-2 text-wrap shadow-sm" style="max-width: 85%; text-align: left; display: inline-block;">
+          Olá! Sou o assistente de engenharia da FH Maruyama. Tire dúvidas sobre PP, PS, Aço, Madeira ou prazos de corte!
+        </span>
+      </div>
+
+      <div *ngFor="let msg of mensagensChat" [ngClass]="msg.remetente === 'usuario' ? 'text-end' : 'text-start'">
+        <span class="badge p-2 text-wrap shadow-sm" [ngClass]="msg.remetente === 'usuario' ? 'bg-warning text-black' : 'bg-secondary text-white'" style="max-width: 85%; text-align: left; display: inline-block;">
+          {{ msg.texto }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Rodapé com Input de Envio -->
+    <div class="card-footer bg-dark border-top border-secondary p-2">
+      <div class="input-group input-group-sm">
+        <input 
+          type="text" 
+          class="form-control bg-black text-white border-secondary shadow-none" 
+          [(ngModel)]="inputMensagemChat" 
+          (keyup.enter)="enviarMensagemChat()" 
+          placeholder="Escreva a sua dúvida técnica...">
+        <button class="btn btn-warning fw-bold text-black px-3" type="button" (click)="enviarMensagemChat()">Enviar</button>
+      </div>
+    </div>
+
   </div>
 </div>
 
