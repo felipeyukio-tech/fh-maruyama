@@ -29,6 +29,7 @@
           },
           "configurations": {
             "production": {
+              "baseHref": "/fh-maruyama/",
               "budgets": [
                 {
                   "type": "initial",
