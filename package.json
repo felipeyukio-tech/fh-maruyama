@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@angular/build": "^22.1.8",
-    "@angular/cli": "^22.1.8",
+    "@angular/cli": "^22.2.1",
     "@angular/compiler-cli": "^22.1.0",
     "@types/three": "^0.186.0",
     "angular-cli-ghpages": "^3.1.0",
