@@ -44,6 +44,7 @@ export class Produto3dComponent implements OnInit, AfterViewInit, OnChanges, OnD
   @Input() profundidade: number = 30; 
   @Input() materialTipo: string = 'pp'; 
   @Input() corDesejada: string = ''; 
+  @Input() textoLogotipo: string = ''; // <--- Propriedade adicionada para resolver o erro de vinculação
 
   private renderer!: THREE.WebGLRenderer;
   private scene!: THREE.Scene;
@@ -60,7 +61,7 @@ export class Produto3dComponent implements OnInit, AfterViewInit, OnChanges, OnD
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.group && (changes['largura'] || changes['altura'] || changes['profundidade'] || changes['materialTipo'] || changes['corDesejada'])) {
+    if (this.group && (changes['largura'] || changes['altura'] || changes['profundidade'] || changes['materialTipo'] || changes['corDesejada'] || changes['textoLogotipo'])) {
       this.updateObjectGroup();
     }
   }
@@ -116,22 +117,18 @@ export class Produto3dComponent implements OnInit, AfterViewInit, OnChanges, OnD
     const metalMat = this.getMetalAccentMaterial();
 
     if (tipo.includes('pp')) {
-      // COOLER TÉRMICO INDUSTRIAL (Formato Baú Retangular Robusto com Tampa e Pegas Laterais)
       const bodyGeo = new THREE.BoxGeometry(5.2, 3.2, 3.6);
       const bodyMesh = new THREE.Mesh(bodyGeo, mainMat);
       bodyMesh.position.y = -0.2;
 
-      // Base inferior de reforço
       const baseGeo = new THREE.BoxGeometry(5.3, 0.3, 3.7);
       const baseMesh = new THREE.Mesh(baseGeo, detailMat);
       baseMesh.position.y = -1.9;
 
-      // Tampa superior abaulada do cooler
       const lidGeo = new THREE.BoxGeometry(5.35, 0.7, 3.75);
       const lidMesh = new THREE.Mesh(lidGeo, detailMat);
       lidMesh.position.y = 1.5;
 
-      // Pegas laterais robustas para transporte
       const handleLeftGeo = new THREE.BoxGeometry(0.3, 0.8, 1.2);
       const handleLeft = new THREE.Mesh(handleLeftGeo, accentMat);
       handleLeft.position.set(-2.8, -0.2, 0);
@@ -139,20 +136,18 @@ export class Produto3dComponent implements OnInit, AfterViewInit, OnChanges, OnD
       const handleRight = handleLeft.clone();
       handleRight.position.set(2.8, -0.2, 0);
 
-      // Linhas técnicas CAD na estrutura
       const edges = new THREE.EdgesGeometry(bodyGeo);
-      const line = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0xfbbf24, linewidth: 2 }));
+      const line = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0xfbbf24 }));
 
       this.group.add(bodyMesh, baseMesh, lidMesh, handleLeft, handleRight, line);
 
     } else if (tipo.includes('ps')) {
-      // Bandeja Organizadora Expositora com Divisórias Moldadas
       const trayBaseGeo = new THREE.BoxGeometry(6.0, 0.7, 4.2);
       const trayBase = new THREE.Mesh(trayBaseGeo, mainMat);
 
       const frameGeo = new THREE.BoxGeometry(6.2, 1.2, 4.4);
       const edges = new THREE.EdgesGeometry(frameGeo);
-      const wireframe = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0x64748b, linewidth: 2 }));
+      const wireframe = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0x64748b }));
 
       const div1Geo = new THREE.BoxGeometry(0.08, 1.0, 4.0);
       const div1 = new THREE.Mesh(div1Geo, detailMat);
@@ -165,7 +160,6 @@ export class Produto3dComponent implements OnInit, AfterViewInit, OnChanges, OnD
       this.group.add(trayBase, wireframe, div1, div2);
 
     } else if (tipo.includes('madeira')) {
-      // Painel de Madeira Acabado com Relevo CNC
       const panelGeo = new THREE.BoxGeometry(5.0, 5.0, 0.55);
       const panelMesh = new THREE.Mesh(panelGeo, mainMat);
 
@@ -184,7 +178,6 @@ export class Produto3dComponent implements OnInit, AfterViewInit, OnChanges, OnD
       this.group.add(panelMesh, groove1, groove2, logoPlate);
 
     } else {
-      // Gabinete Técnico Modular em Aço com Porta Frontal, Fechos e Dobradiças
       const cabinetGeo = new THREE.BoxGeometry(4.2, 4.8, 3.2);
       const cabinetMesh = new THREE.Mesh(cabinetGeo, mainMat);
 
@@ -204,7 +197,7 @@ export class Produto3dComponent implements OnInit, AfterViewInit, OnChanges, OnD
       hinge2.position.set(-1.98, -1.5, 1.65);
 
       const edges = new THREE.EdgesGeometry(cabinetGeo);
-      const line = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0xfbbf24, linewidth: 2 }));
+      const line = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0xfbbf24 }));
 
       this.group.add(cabinetMesh, doorMesh, handleMesh, hinge1, hinge2, line);
     }
