@@ -428,12 +428,12 @@
           <div class="row g-0 h-100">
             
             <!-- COMPONENTE 3D DINÂMICO LIGADO ÀS MEDIDAS, COR E LOGÓTIPO -->
-<div class="col-md-5 bg-black p-2 d-flex align-items-center justify-content-center border-end border-secondary">
+            <div class="col-md-5 bg-black p-2 d-flex align-items-center justify-content-center border-end border-secondary">
               <app-produto-3d 
                 [largura]="dimensoes[p.id] ? dimensoes[p.id].largura : 40" 
                 [altura]="dimensoes[p.id] ? dimensoes[p.id].altura : 30" 
                 [profundidade]="dimensoes[p.id] ? dimensoes[p.id].profundidade : 30"
-                materialTipo="pp"
+                [materialTipo]="p.material"
                 [corDesejada]="corSelecionada[p.id]"
                 [textoLogotipo]="logotipos[p.id] || ''">
               </app-produto-3d>
